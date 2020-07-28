@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Category;
+use App\Http\Requests\CategoryRequest;
+use TJGazel\Toastr\Facades\Toastr;
 
 class CategoryController extends Controller
 {
@@ -18,20 +20,27 @@ class CategoryController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::orderBy('id', 'DESC')->paginate(5);
-        return ['categories' => $categories];
-    }
+        $search = $request->search;
+        if ($search == '') {
+            $categories = Category::orderBy('id', 'DESC')->paginate(10);
+        }
+        else{
+            $categories = Category::where('name', 'like', '%' . $search . '%')->orderBy('id', 'DESC')->paginate(10);
+        }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return [
+            'pagination' => [
+                'total' => $categories->total(),
+                'current_page' => $categories->currentPage(),
+                'per_page' => $categories->perPage(),
+                'last_page' => $categories->lastPage(),
+                'from' => $categories->firstItem(),
+                'to' => $categories->lastItem(),
+            ],
+            'categories' => $categories
+        ];
     }
 
     /**
@@ -40,31 +49,10 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        Category::create($request->validated());
+        return;
     }
 
     /**
@@ -74,9 +62,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
-        //
+        Category::find($id)->update($request->validated());
+        return;
     }
 
     /**
@@ -87,6 +76,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->delete();
     }
 }

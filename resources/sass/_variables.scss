@@ -5,8 +5,12 @@ $body-bg: #f8fafc;
 $font-family-sans-serif: 'Nunito', sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
+//Titulos de letra responsibe
+$enable-responsive-font-sizes: true;
+$enable-gradients: true;
 
 // Colors
+$primary: #286af0;
 $blue: #3490dc;
 $indigo: #6574cd;
 $purple: #9561e2;

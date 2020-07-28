@@ -12,16 +12,16 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a v-on:click.prevent="menu=1" href="#" class="nav-link">
+                    <li v-on:click.prevent="menu=1" class="nav-item">
+                        <a href="#" class="nav-link">
                             <i class="fas fa-tag nav-icon"></i>
-                            <p>Categoría</p>
+                            <p>Categorías</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li v-on:click.prevent="menu=2" class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-check-square nav-icon"></i>
-                            <p>Artículos</p>
+                            <p>Productos</p>
                         </a>
                     </li>
                 </ul>
@@ -35,13 +35,13 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    <li class="nav-item">
+                    <li v-on:click.prevent="menu=3" class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-clipboard-list nav-icon"></i>
                             <p>Entradas</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li v-on:click.prevent="menu=4" class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-address-card nav-icon"></i>
                             <p>Proveedores</p>
@@ -58,16 +58,16 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    <li class="nav-item">
+                    <li v-on:click.prevent="menu=5" class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-clipboard nav-icon"></i>
                             <p>Salidas</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li v-on:click.prevent="menu=6" class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-user nav-icon"></i>
-                            <p>Clientes</p>
+                            <p>Personal</p>
                         </a>
                     </li>
                 </ul>
