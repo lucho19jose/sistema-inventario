@@ -9,6 +9,10 @@
     <template v-if="menu==1">
         <category></category>
     </template>
+
+    <template v-if="menu==2">
+        <product></product>
+    </template>
     @endif
 
 @endsection

@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <h1 class="m-3 text-dark text-center">Bienvenido Inversiones Raulins</h1>
+            <h1 class="m-3 text-dark text-center">Bienvenido a Inversiones Raulins</h1>
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
 

@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', 'home');
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('categories', 'Admin\CategoryController');
+Route::resource('categories', 'Admin\CategoryController')->except('show', 'create', 'edit');
+
+Route::resource('products', 'Admin\ProductController');

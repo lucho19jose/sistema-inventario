@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Product;
+use App\Category;
+use App\Http\Requests\ProductRequest;
+use TJGazel\Toastr\Facades\Toastr;
 
 class ProductController extends Controller
 {
@@ -12,19 +16,46 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('auth');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index(Request $request)
+    {
+        $search = $request->search;
+
+        if ($search == '') {
+            $products = Product::select('products.id', 'products.name', 'products.description', 'products.stock', 'products.category_id', 'categories.name as category_name')
+                ->join('categories', 'categories.id', '=', 'products.category_id')
+                ->orderBy('products.id', 'DESC')
+                ->paginate(8);
+        }
+        else{
+            $products = Product::select('products.id', 'products.name', 'products.description', 'products.stock', 'products.category_id', 'categories.name as category_name')
+                ->join('categories', 'categories.id', '=', 'products.category_id')
+                ->where('products.name', 'like', '%' . $search . '%')
+                ->orderBy('products.id', 'DESC')
+                ->paginate(8);
+        }
+
+        return [
+            'pagination' => [
+                'total' => $products->total(),
+                'current_page' => $products->currentPage(),
+                'per_page' => $products->perPage(),
+                'last_page' => $products->lastPage(),
+                'from' => $products->firstItem(),
+                'to' => $products->lastItem(),
+            ],
+            'products' => $products
+        ];
+    }
+
     public function create()
     {
-        //
+        $categories = Category::select('id', 'name')->orderBy('name', 'ASC')->get();
+        return ['categories' => $categories];
     }
 
     /**
@@ -33,32 +64,12 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        Product::create($request->validated());
+        return;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -67,9 +78,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
-        //
+        Product::find($id)->update($request->validated());
+        return;
     }
 
     /**
@@ -80,6 +92,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $product->delete();
     }
 }

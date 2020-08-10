@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
     	factory(Product::class, 300)->create();
 
     	Product::create([
-    		'category_id' => '31',
+    		'category_id' => '12',
     		'name' => 'Cuaderno A4 Justus',
     		'description' => null,
             'stock' => '100',

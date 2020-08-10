@@ -18,11 +18,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
             </li>
-            @if (Route::has('register'))
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-            </li>
-            @endif
             @else
             <li class="nav-item dropdown">
                 <a id="nav-link dropdown-toggle nav-link" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -35,29 +30,29 @@
                         <strong>Cuenta</strong>
                     </div>
                     <div class="px-2">
-                        <a class="dropdown-item text-center bg-danger" href="{{ route('logout') }}"
+                        <a class="dropdown-item text-center bg-gradient-danger text-white" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
-                        <i class="fa fa-lock">
-                        </i> <span> {{ __('Logout') }}</span>
-                    </a>
-                </div>
+                            <i class="fa fa-lock">
+                            </i> <span> {{ __('Logout') }}</span>
+                        </a>
+                    </div>
 
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            </div>
-        </li>
-        @endguest
-    </ul>
-</nav>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </div>
+            </li>
+         @endguest
+        </ul>
+    </nav>
 <!-- /.navbar -->
 
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ url('home') }}" class="brand-link">
-        <img src="./img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="./img/logo_0.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">
             {{ config('app.name', 'Laravel') }}
         </span>

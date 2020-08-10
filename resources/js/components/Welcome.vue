@@ -5,7 +5,7 @@
                 <h1 class="m-0 text-dark text-center">Bienvenido</h1>
             </div>
             <div class="col-md-8 text-center">
-                <h4>Sistema de invetario Raulin's</h4>
+                <h4>Sistema de Invetario de Inverciones Raulin's</h4>
             </div>
         </div>
     </div>
