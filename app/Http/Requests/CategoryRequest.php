@@ -31,7 +31,7 @@ class CategoryRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'La categoría necesita un nombre',
+            'name.required' => 'La categoría necesita un nombre.',
         ];
     }
 }

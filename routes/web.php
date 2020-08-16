@@ -21,4 +21,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('categories', 'Admin\CategoryController')->except('show', 'create', 'edit');
 
-Route::resource('products', 'Admin\ProductController');
+Route::resource('products', 'Admin\ProductController')->except('show', 'edit');
+
+Route::resource('providers', 'Admin\ProviderController')->except('show', 'create', 'edit');

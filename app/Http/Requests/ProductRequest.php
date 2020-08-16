@@ -34,11 +34,11 @@ class ProductRequest extends FormRequest
     public function messages()
     {
         return [
-            'category_id.integer' => 'Seleccione una categoría',
-            'name.required' => 'El producto necesita un nombre',
-            'stock.required' => 'El stock del producto no puede estar vacío',
-            'stock.integer' => 'El stock del producto debe ser un número',
-            'stock.min' => 'El stock del producto debe ser mínimo 0',
+            'category_id.integer' => 'Seleccione una categoría.',
+            'name.required' => 'El producto necesita un nombre.',
+            'stock.required' => 'El stock del producto no puede estar vacío.',
+            'stock.integer' => 'El stock del producto debe ser un número.',
+            'stock.min' => 'El stock del producto debe ser mínimo 0.',
         ];
     }
 }

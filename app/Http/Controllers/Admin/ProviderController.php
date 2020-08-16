@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Provider;
+use App\Http\Requests\ProviderRequest;
+use TJGazel\Toastr\Facades\Toastr;
 
 class ProviderController extends Controller
 {
@@ -12,19 +15,32 @@ class ProviderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('auth');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function index(Request $request)
     {
-        //
+        $search = $request->search;
+        if($search == ''){
+            $providers = Provider::orderBy('id', 'DESC')->paginate(8);
+        }
+        else{
+            $providers = Provider::where('name', 'like', '%' . $search . '%')->orderBy('id', 'DESC')->paginate(8);
+        }
+
+        return [
+            'pagination' => [
+                'total' => $providers->total(),
+                'current_page' => $providers->currentPage(),
+                'per_page' => $providers->perPage(),
+                'last_page' => $providers->lastPage(),
+                'from' => $providers->firstItem(),
+                'to' => $providers->lastItem(),
+            ],
+            'providers' => $providers
+        ];
     }
 
     /**
@@ -33,32 +49,12 @@ class ProviderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProviderRequest $request)
     {
-        //
+        Provider::create($request->validated());
+        return;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -67,9 +63,10 @@ class ProviderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProviderRequest $request, $id)
     {
-        //
+        Provider::find($id)->update($request->validated());
+        return;
     }
 
     /**
@@ -80,6 +77,7 @@ class ProviderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $provider= Provider::findOrFail($id);
+        $provider->delete();
     }
 }

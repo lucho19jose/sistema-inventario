@@ -6,7 +6,7 @@
                     <div class="card-header">
                         <h4>
                             <i class="fa fa-align-justify"></i>
-                            Productos
+                            Proveedores
                             <a v-on:click.prevent="openModal('create')" href="#" class="btn btn-primary float-right">
                                 <i class="fas fa-plus-circle"></i> Nuevo
                             </a>
@@ -17,8 +17,8 @@
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <input v-model="search" v-on:keyup.enter="getProducts(1, search)" type="text" class="form-control bg-light shadow-sm" placeholder="Producto a buscar">
-                                    <button v-on:click.prevent="getProducts(1, search)" type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    <input v-model="search" v-on:keyup.enter="getProviders(1, search)" type="text" class="form-control bg-light shadow-sm" placeholder="Proveedor a buscar">
+                                    <button v-on:click.prevent="getProviders(1, search)" type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -26,23 +26,25 @@
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th>Categoría</th>
-                                    <th>Descripcion</th>
-                                    <th>Stock</th>
+                                    <th>RUC</th>
+                                    <th>Dirección</th>
+                                    <th>Telefono</th>
+                                    <th>Email</th>
                                     <th colspan="2">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="product in products">
-                                    <td>{{ product.name }}</td>
-                                    <td>{{ product.category_name }}</td>
-                                    <td>{{ product.description }}</td>
-                                    <td>{{ product.stock }}</td>
+                                <tr v-for="provider in providers">
+                                    <td>{{ provider.name }}</td>
+                                    <td>{{ provider.ruc }}</td>
+                                    <td>{{ provider.address }}</td>
+                                    <td>{{ provider.phone }}</td>
+                                    <td>{{ provider.email }}</td>
                                     <td width="10px">
-                                        <a v-on:click.prevent="openModal('edit', product)" href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                        <a v-on:click.prevent="openModal('edit', provider)" href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                                     </td>
                                     <td width="10px">
-                                        <a v-on:click.prevent="deleteProduct(product)" href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
+                                        <a v-on:click.prevent="deleteProvider(provider)" href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -70,7 +72,7 @@
                 </div>
                 <div>
                     <form method="POST">
-                        <div class="modal fade" id="modalProduct">
+                        <div class="modal fade" id="modalProvider">
                             <div class="modal-dialog modal-dialog-centered modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header bg-primary text-white">
@@ -81,34 +83,34 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label for="category">Categoría</label>
-                                            <select v-model="category_id" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorCategory}">
-                                                <option value="a" disabled>Seleccione</option>
-                                                <option v-for="category in categories" :key="category.id" :value="category.id" v-text="category.name">
-                                                </option>
-                                            </select>
-                                            <span class="text-danger" ole="alert">{{ errorCategory }}</span>
-                                        </div>
-                                        <div class="form-group">
                                             <label for="name">Nombre</label>
-                                            <input v-model="name" placeholder="Nombre categoria ...." type="text" name="name" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorName}">
+                                            <input v-model="name" placeholder="Nombre de proveedor ...." type="text" name="name" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorName}">
                                             <span class="text-danger" ole="alert">{{ errorName }}</span>
                                         </div>
                                         <div class="form-group">
-                                            <label for="description">Descripcion</label>
-                                            <textarea v-model="description" class="form-control bg-light shadow-sm"
-                                            name="description" placeholder="Ingrese descripcion ...."></textarea>
+                                            <label for="ruc">RUC</label>
+                                            <input v-model="ruc" placeholder="Número de RUC ...." type="text" name="ruc" class="form-control bg-light shadow-sm">
                                         </div>
                                         <div class="form-group">
-                                            <label for="stock">Stock</label>
-                                            <input v-model="stock" type="number" name="stock" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorStock}">
-                                            <span class="text-danger" ole="alert">{{ errorStock }}</span>
+                                            <label for="address">Dirección</label>
+                                            <input v-model="address" placeholder="Dirección de proveedor ...." type="text" name="address" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorAddress}">
+                                            <span class="text-danger" ole="alert">{{ errorAddress }}</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="phone">Telefono</label>
+                                            <input v-model="phone" placeholder="Número de telefono ...." type="number" name="phone" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorPhone}">
+                                            <span class="text-danger" ole="alert">{{ errorPhone }}</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input v-model="email" placeholder="Email de proveedor ...." type="email" name="email" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorEmail}">
+                                            <span class="text-danger" ole="alert">{{ errorEmail }}</span>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                        <button v-if="typeAction==1" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="createProduct">Guardar</button>
-                                        <button v-if="typeAction==2" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="updateProduct(id)">Actulizar</button>
+                                        <button v-if="typeAction==1" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="createProvider">Guardar</button>
+                                        <button v-if="typeAction==2" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="updateProvider(id)">Actulizar</button>
                                     </div>
                                 </div>
                             </div>
@@ -130,8 +132,7 @@ import 'sweetalert2/src/sweetalert2.scss'
 export default {
     data(){
         return {
-            products: [],
-            categories: [],
+            providers: [],
             pagination: {
                 'total': 0,
                 'current_page': 0,
@@ -142,24 +143,27 @@ export default {
             },
             id: 0,
             name: '',
-            description: '',
-            stock: 0,
-            category_id: 'a',
+            ruc: '',
+            address: '',
+            phone: '',
+            email: '',
             errorName: '',
-            errorCategory: '',
-            errorStock: '',
+            errorAddress: '',
+            errorPhone: '',
+            errorEmail: '',
             modalTitle: '',
             typeAction: 0,
             offset: 3,
             search: '',
             hasErrorName: false,
-            hasErrorCategory: false,
-            hasErrorStock: false,
+            hasErrorAddress: false,
+            hasErrorPhone: false,
+            hasErrorEmail: false,
         }
     },
 
     created: function(){
-        this.getProducts(1, '');
+        this.getProviders(1, '');
     },
 
     computed: {
@@ -192,17 +196,17 @@ export default {
 
     methods: {
         //Obtner las categorias
-        getProducts: function(page, search){
-            var urlProduct = 'products?page=' + page + '&search=' + search;
-            axios.get(urlProduct).then(response => {
-                this.products = response.data.products.data;
+        getProviders: function(page, search){
+            var url = 'providers?page=' + page + '&search=' + search;
+            axios.get(url).then(response => {
+                this.providers = response.data.providers.data;
                 this.pagination = response.data.pagination;
             });
         },
 
         //Elimnar una categoria
-        deleteProduct: function(product){
-            var url = 'products/' + product.id;
+        deleteProvider: function(provider){
+            var url = 'providers/' + provider.id;
             Swal.fire({
                 title: '¿Estás seguro?',
                 text: "¡No podréis revertir esto!",
@@ -215,39 +219,31 @@ export default {
                 if (result.value) {
                     //Metodo para eliminar
                     axios.delete(url).then(response => {
-                        this.getProducts(1, '');
+                        this.getProviders(1, '');
                     });
                     //Asta qui
                     Swal.fire(
                         'Eliminado!',
-                        'Producto eliminado correctamente.',
+                        'Proveedor eliminado correctamente.',
                         'success'
                         )
                 }
             })
         },
 
-        //Obtener categorias
-
-        getCategories: function(){
-            var url = 'products/create';
-            axios.get(url).then(response => {
-                this.categories = response.data.categories;
-            });
-        },
-
         //crear producto
-        createProduct: function(){
-            var url = 'products';
+        createProvider: function(){
+            var url = 'providers';
             axios.post(url, {
-                'category_id': this.category_id,
                 'name': this.name,
-                'description': this.description,
-                'stock': this.stock
+                'ruc': this.ruc,
+                'address': this.address,
+                'phone': this.phone,
+                'email': this.email
             }).then(response => {
-                this.getProducts(1, '');
+                this.getProviders(1, '');
                 this.clear();
-                $('#modalProduct').modal('hide');
+                $('#modalProvider').modal('hide');
                 toastr.success('Nueva producto creada con exito', 'Producto', {
                     "closeButton": true,
                     "positionClass": "toast-bottom-right"
@@ -257,94 +253,105 @@ export default {
                     this.errorName = error.response.data.errors.name[0];
                     this.hasErrorName = true;
                 }
-                if (typeof error.response.data.errors.category_id != 'undefined') {
-                    this.errorCategory = error.response.data.errors.category_id[0];
-                    this.hasErrorCategory = true;
+                if (typeof error.response.data.errors.address != 'undefined') {
+                    this.errorAddress = error.response.data.errors.address[0];
+                    this.hasErrorAddress = true;
                 }
-                if (typeof error.response.data.errors.stock != 'undefined') {
-                    this.errorStock = error.response.data.errors.stock[0];
-                    this.hasErrorStock = true;
+                if (typeof error.response.data.errors.phone != 'undefined') {
+                    this.errorPhone = error.response.data.errors.phone[0];
+                    this.hasErrorPhone = true;
+                }
+                if (typeof error.response.data.errors.email != 'undefined') {
+                    this.errorEmail = error.response.data.errors.email[0];
+                    this.hasErrorEmail = true;
                 }
             });
         },
 
         //actualizar producto
-        updateProduct: function(id){
-            var url = 'products/' + id;
+        updateProvider: function(id){
+            var url = 'providers/' + id;
             axios.put(url, {
                 'id': this.id,
-                'category_id': this.category_id,
                 'name': this.name,
-                'description': this.description,
-                'stock': this.stock
+                'ruc': this.ruc,
+                'address': this.address,
+                'phone': this.phone,
+                'email': this.email
             }).then(response => {
-                this.getProducts(1, '');
-                this.clear();
-                $('#modalProduct').modal('hide');
-                toastr.success('Producto actualizado con exito', 'Producto', {
+                this.getProviders(1, '');
+                $('#modalProvider').modal('hide');
+                toastr.success('Proveedor actualizado con exito', 'Proveedor', {
                     "closeButton": true,
                     "positionClass": "toast-bottom-right"
                 });
             }).catch(error => {
-                if (typeof error.response.data.errors.name != 'undefined') {
+                 if (typeof error.response.data.errors.name != 'undefined') {
                     this.errorName = error.response.data.errors.name[0];
                     this.hasErrorName = true;
                 }
-                if (typeof error.response.data.errors.category_id != 'undefined') {
-                    this.errorCategory = error.response.data.errors.category_id[0];
-                    this.hasErrorCategory = true;
+                if (typeof error.response.data.errors.address != 'undefined') {
+                    this.errorAddress = error.response.data.errors.address[0];
+                    this.hasErrorAddress = true;
                 }
-                if (typeof error.response.data.errors.stock != 'undefined') {
-                    this.errorStock = error.response.data.errors.stock[0];
-                    this.hasErrorStock = true;
+                if (typeof error.response.data.errors.phone != 'undefined') {
+                    this.errorPhone = error.response.data.errors.phone[0];
+                    this.hasErrorPhone = true;
+                }
+                if (typeof error.response.data.errors.email != 'undefined') {
+                    this.errorEmail = error.response.data.errors.email[0];
+                    this.hasErrorEmail = true;
                 }
             });
         },
 
-        openModal: function(modal, product){
+        openModal: function(modal, provider){
             if (modal == 'create'){
                 this.typeAction = 1;
-                this.modalTitle = 'Nueva Producto';
+                this.modalTitle = 'Nueva Proveedor';
                 this.clear();
-                $('#modalProduct').modal('show');
+                $('#modalProvider').modal('show');
                 this.hasErrorFalse();
             }
             else if(modal == 'edit'){
                 this.hasErrorFalse();
                 this.typeAction = 2;
-                this.modalTitle = 'Actulizar Producto';
-                this.id = product.id;
-                this.category_id = product.category_id;
-                this.name = product.name;
-                this.description = product.description;
-                this.stock = product.stock;
-                $('#modalProduct').modal('show');
+                this.modalTitle = 'Actulizar Proveedor';
+                this.id = provider.id;
+                this.name = provider.name;
+                this.ruc = provider.ruc;
+                this.address = provider.address;
+                this.phone = provider.phone;
+                this.email = provider.email;
+                $('#modalProvider').modal('show');
             }
-            this.getCategories();
         },
 
         clear: function(){
             this.id = 0;
             this.name = '';
-            this.category_id = 'a';
-            this.description = '';
-            this.stock = 0;
+            this.ruc = '';
+            this.address = '';
+            this.phone = '';
+            this.email = '';
             this.hasErrorFalse();
         },
 
         hasErrorFalse: function(){
             this.errorName = '';
-            this.errorCategory = '';
-            this.errorStock = '';
             this.hasErrorName = false;
-            this.hasErrorCategory = false;
-            this.hasErrorStock = false;
+            this.errorPhone = '';
+            this.hasErrorAddress = false;
+            this.errorAddress = '';
+            this.hasErrorPhone = false;
+            this.errorEmail = '';
+            this.hasErrorEmail = false;
         },
 
         //Para el cambio de pagina
         changePage: function(page, search){
             this.pagination.current_page = page;
-            this.getProducts(page, search);
+            this.getProviders(page, search);
         }
     }
 }

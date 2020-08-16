@@ -22,6 +22,7 @@ class InputSeeder extends Seeder
             'voucher_serie' => '0001',
             'voucher_number' => '100100399',
             'observation' => null,
+            'total' => '100',
         ]);
 
         factory(InputProduct::class, 31)->create();

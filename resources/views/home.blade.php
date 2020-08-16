@@ -13,6 +13,10 @@
     <template v-if="menu==2">
         <product></product>
     </template>
+
+    <template v-if="menu==4">
+        <provider></provider>
+    </template>
     @endif
 
 @endsection

@@ -22,6 +22,7 @@ class CreateInputsTable extends Migration
             $table->string('voucher_serie', 10)->nullable();
             $table->string('voucher_number', 20)->nullable();
             $table->string('observation')->nullable();
+            $table->decimal('total', 11, 2);
 
             $table->timestamps();
 

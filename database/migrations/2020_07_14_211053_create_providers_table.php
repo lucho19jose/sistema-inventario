@@ -17,10 +17,9 @@ class CreateProvidersTable extends Migration
             $table->id();
 
             $table->string('name');
-            $table->string('RUC', 20)->nullable();
+            $table->string('ruc', 20)->nullable();
             $table->string('address')->nullable();
             $table->string('phone', 9)->nullable();
-            $table->string('contact', 20)->nullable();
             $table->string('email')->nullable();
 
             $table->timestamps();
