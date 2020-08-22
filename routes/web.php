@@ -24,3 +24,6 @@ Route::resource('categories', 'Admin\CategoryController')->except('show', 'creat
 Route::resource('products', 'Admin\ProductController')->except('show', 'edit');
 
 Route::resource('providers', 'Admin\ProviderController')->except('show', 'create', 'edit');
+
+Route::resource('staffs', 'Admin\StaffController')->except('show', 'create', 'edit');
+

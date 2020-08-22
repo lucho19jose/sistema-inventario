@@ -17,6 +17,10 @@
     <template v-if="menu==4">
         <provider></provider>
     </template>
+
+    <template v-if="menu==6">
+        <staff></staff>
+    </template>
     @endif
 
 @endsection

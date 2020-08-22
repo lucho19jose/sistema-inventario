@@ -17,7 +17,8 @@ class CreateOutputsTable extends Migration
             $table->id();
 
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('people_id')->unsigned();
+            $table->bigInteger('staff_id')->unsigned();
+            $table->bigInteger('branch_id')->unsigned();
             $table->string('voucher_type', 45)->nullable();
             $table->string('voucher_serie', 10)->nullable();
             $table->string('voucher_number', 20)->nullable();
@@ -28,7 +29,10 @@ class CreateOutputsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->foreign('people_id')->references('id')->on('people')
+            $table->foreign('staff_id')->references('id')->on('staff')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreign('branch_id')->references('id')->on('branches')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });

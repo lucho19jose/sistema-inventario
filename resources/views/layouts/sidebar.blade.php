@@ -72,6 +72,29 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        Acceso
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li v-on:click.prevent="menu=7" class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-user-tie nav-icon"></i>
+                            <p>Usuarios</p>
+                        </a>
+                    </li>
+                    <li v-on:click.prevent="menu=8" class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-user-cog nav-icon"></i>
+                            <p>Roles</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </nav>
     <!-- /.sidebar-menu -->

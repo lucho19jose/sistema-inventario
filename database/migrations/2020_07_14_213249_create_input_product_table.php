@@ -20,6 +20,7 @@ class CreateInputProductTable extends Migration
             $table->bigInteger('input_id')->unsigned();
 
             $table->integer('quantity');
+            $table->decimal('price', 11, 2);
 
             $table->foreign('product_id')->references('id')->on('products')
                 ->onDelete('cascade')

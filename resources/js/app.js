@@ -24,6 +24,7 @@ Vue.component('welcome', require('./components/Welcome.vue').default);
 Vue.component('category', require('./components/Category.vue').default);
 Vue.component('product', require('./components/Product.vue').default);
 Vue.component('provider', require('./components/Provider.vue').default);
+Vue.component('staff', require('./components/Staff.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

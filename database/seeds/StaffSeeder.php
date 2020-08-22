@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Person;
+use App\Staff;
 
-class PersonSeeder extends Seeder
+class StaffSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,9 +12,9 @@ class PersonSeeder extends Seeder
      */
     public function run()
     {
-    	factory(Person::class, 50)->create();
+        factory(Staff::class, 50)->create();
 
-    	Person::create([
+    	Staff::create([
     		'first_name' => 'Yefer Antoni',
     		'last_name' => 'Espinoza Velasque',
     		'dni' => '70445570',

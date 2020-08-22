@@ -10,5 +10,6 @@ $factory->define(InputProduct::class, function (Faker $faker) {
     	'product_id' => rand(1, 300),
     	'input_id' => rand(1, 31),
         'quantity' => rand(10, 20),
+        'price' => rand(1, 200),
     ];
 });

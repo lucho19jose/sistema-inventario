@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPeopleIdAtUsers extends Migration
+class AddStaffIdAtUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +14,12 @@ class AddPeopleIdAtUsers extends Migration
     public function up()
     {
         Schema::table('users', function(Blueprint $table){
-            $table->bigInteger('people_id')->unsigned()
+            $table->bigInteger('staff_id')->unsigned()
                 ->nullable()
                 ->after('id');
 
-            $table->foreign('people_id')->references('id')->on('people')
-                ->onDelete('set null')
+            $table->foreign('staff_id')->references('id')->on('staff')
+                ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
     }

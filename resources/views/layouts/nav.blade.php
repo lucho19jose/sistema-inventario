@@ -22,7 +22,7 @@
             <li class="nav-item dropdown">
                 <a id="nav-link dropdown-toggle nav-link" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                     <img src="./img/user2-160x160.jpg" alt="User Image" class="img-circle elevation-1" width="30" height="30">
-                    <span class="caret">{{  $person->first_name .' '.  $person->last_name }}</span>
+                    <span class="caret">{{  $staff->first_name .' '.  $staff->last_name }}</span>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right pt-0" aria-labelledby="navbarDropdown">

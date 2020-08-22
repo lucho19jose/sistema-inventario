@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Person;
+use App\Staff;
 
 class HomeController extends Controller
 {
@@ -24,8 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $id = auth()->user()->people_id;
-        $person = Person::find($id);
-        return view('home', compact('person'));
+        $id = auth()->user()->staff_id;
+        $staff = Staff::find($id);
+        return view('home', compact('staff'));
     }
 }
