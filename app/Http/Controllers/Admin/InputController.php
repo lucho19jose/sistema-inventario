@@ -4,6 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Input;
+use App\InputProduct;
+use App\Product;
+use App\Http\Requests\InputRequest;
+use TJGazel\Toastr\Facades\Toastr;
 
 class InputController extends Controller
 {
@@ -12,19 +17,42 @@ class InputController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function __construct(){
+        $this->middleware('auth');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function index(Request $request)
     {
-        //
+        $search = $request->search;
+        $criterion = $request->criterion;
+
+        if($search == ''){
+            $inputs = Input::select('inputs.id', 'inputs.voucher_type', 'inputs.voucher_serie', 'inputs.voucher_number', 'inputs.observation', 'inputs.total', 'inputs.created_at', 'providers.name as provider_name', 'users.email as user_email', 'users.id as user_id')
+            ->join('providers', 'providers.id', '=', 'inputs.provider_id')
+            ->join('users', 'users.id', '=', 'inputs.user_id')
+            ->orderBy('inputs.id', 'DESC')
+            ->paginate(8);
+        }
+        else{
+            $inputs = Input::select('inputs.id', 'inputs.voucher_type', 'inputs.voucher_serie', 'inputs.voucher_number', 'inputs.observation', 'inputs.total', 'inputs.created_at', 'providers.name as provider_name', 'users.email as user_email')
+            ->join('providers', 'providers.id', '=', 'inputs.provider_id')
+            ->join('users', 'users.id', '=', 'inputs.user_id')
+            ->where('inputs.'.$criterion, 'like', '%' . $search . '%')
+            ->orderBy('inputs.id', 'DESC')
+            ->paginate(8);
+        }
+
+        return [
+            'pagination' => [
+                'total' => $inputs->total(),
+                'current_page' => $inputs->currentPage(),
+                'per_page' => $inputs->perPage(),
+                'last_page' => $inputs->lastPage(),
+                'from' => $inputs->firstItem(),
+                'to' => $inputs->lastItem(),
+            ],
+            'inputs' => $inputs
+        ];
     }
 
     /**
@@ -33,20 +61,46 @@ class InputController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(InputRequest $request)
     {
-        //
+        $input = Input::create($request->validated());
+        //Arrar con todos los detalles de los productos
+        $details = $request->data;
+        foreach ($details as $key => $detail) {
+            $inputProduct = new InputProduct();
+            $inputProduct->product_id = $detail['product_id'];
+            $inputProduct->input_id = $input->id;
+            $inputProduct->quantity = $detail['quantity'];
+            $inputProduct->price = $detail['price'];
+            $inputProduct->save();
+
+            $product = Product::find($detail['product_id']);
+            $product->stock = $product->stock + $detail['quantity'];
+            $product->save();
+        }
+        return;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    public function showInput(Request $request){
+        $id = $request->id;
+
+        $inputs = Input::select('inputs.id', 'inputs.voucher_type', 'inputs.voucher_serie', 'inputs.voucher_number', 'inputs.observation', 'inputs.total', 'inputs.created_at', 'providers.name as provider_name',)
+            ->join('providers', 'providers.id', '=', 'inputs.provider_id')
+            ->where('inputs.id', '=', $id)
+            ->orderBy('inputs.id', 'DESC')
+            ->take(1)
+            ->get();
+
+        $detailProducts = InputProduct::select('input_product.price', 'input_product.quantity', 'products.name as product')
+            ->join('products', 'products.id', '=', 'input_product.product_id')
+            ->where('input_product.input_id', '=', $id)
+            ->orderBy('input_product.id', 'DESC')
+            ->get();
+
+        return [
+            'inputs' => $inputs,
+            'detailProducts' => $detailProducts
+        ];
     }
 
     /**
@@ -72,14 +126,4 @@ class InputController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

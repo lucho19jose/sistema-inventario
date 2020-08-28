@@ -37,10 +37,10 @@ class ProviderRequest extends FormRequest
         return[
             'name.required' => 'Ingrese el nombre del proveedor.',
             'address.required' => 'Ingrese direccion del proveedor.',
-            'phone.required' => 'El telefono no puede estar vacio',
-            'phone.min' => 'El telefono debe contener 9 digitos',
-            'phone.max' => 'El telefono debe contener 9 digitos',
-            'email.email' => 'Ingrese un email valido',
+            'phone.required' => 'El telefono no puede estar vacio.',
+            'phone.min' => 'El telefono debe contener 9 digitos.',
+            'phone.max' => 'El telefono debe contener 9 digitos.',
+            'email.email' => 'Ingrese un email valido.',
             //'email.unique' => 'El email ya se encuentra registrado',
         ];
     }

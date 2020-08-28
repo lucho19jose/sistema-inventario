@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Category;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use TJGazel\Toastr\Facades\Toastr;
 
 class ProductController extends Controller
@@ -26,13 +27,13 @@ class ProductController extends Controller
         $search = $request->search;
 
         if ($search == '') {
-            $products = Product::select('products.id', 'products.name', 'products.description', 'products.stock', 'products.category_id', 'categories.name as category_name')
+            $products = Product::select('products.id', 'products.code', 'products.name', 'products.description', 'products.stock', 'products.category_id', 'categories.name as category_name')
                 ->join('categories', 'categories.id', '=', 'products.category_id')
                 ->orderBy('products.id', 'DESC')
                 ->paginate(8);
         }
         else{
-            $products = Product::select('products.id', 'products.name', 'products.description', 'products.stock', 'products.category_id', 'categories.name as category_name')
+            $products = Product::select('products.id', 'products.code', 'products.name', 'products.description', 'products.stock', 'products.category_id', 'categories.name as category_name')
                 ->join('categories', 'categories.id', '=', 'products.category_id')
                 ->where('products.name', 'like', '%' . $search . '%')
                 ->orderBy('products.id', 'DESC')
@@ -78,7 +79,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductRequest $request, $id)
+    public function update(ProductUpdateRequest $request, $id)
     {
         Product::find($id)->update($request->validated());
         return;
@@ -95,4 +96,42 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->delete();
     }
+
+    public function searchProduct(Request $request)
+    {
+        $filter = $request->filter;
+        $products = Product::select('id', 'name')
+            ->where('code', '=', $filter)
+            ->orderBy('name', 'ASC')
+            ->take(1)->get();
+
+        return [
+            'products' => $products
+        ];
+    }
+
+    public function getProduct(Request $request)
+    {
+        $search = $request->search;
+        $criterion = $request->criterion;
+
+        if ($search == '') {
+            $products = Product::select('products.id', 'products.code', 'products.name', 'products.description', 'products.stock', 'products.category_id', 'categories.name as category_name')
+                ->join('categories', 'categories.id', '=', 'products.category_id')
+                ->orderBy('products.id', 'DESC')
+                ->paginate(8);
+        }
+        else{
+            $products = Product::select('products.id', 'products.code', 'products.name', 'products.description', 'products.stock', 'products.category_id', 'categories.name as category_name')
+                ->join('categories', 'categories.id', '=', 'products.category_id')
+                ->where('products.'.$criterion, 'like', '%' . $search . '%')
+                ->orderBy('products.id', 'DESC')
+                ->paginate(8);
+        }
+
+        return [
+            'products' => $products
+        ];
+    }
+
 }

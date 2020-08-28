@@ -95,6 +95,29 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-table"></i>
+                    <p>
+                        Reportes
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li v-on:click.prevent="menu=9" class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-clipboard-list nav-icon"></i>
+                            <p>Ingreso de Productos</p>
+                        </a>
+                    </li>
+                    <li v-on:click.prevent="menu=10" class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-clipboard nav-icon"></i>
+                            <p>Salida de Productos</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </nav>
     <!-- /.sidebar-menu -->

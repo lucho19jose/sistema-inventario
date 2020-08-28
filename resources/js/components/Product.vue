@@ -25,6 +25,7 @@
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
+                                    <th>Codigo</th>
                                     <th>Nombre</th>
                                     <th>Categoría</th>
                                     <th>Descripcion</th>
@@ -34,6 +35,7 @@
                             </thead>
                             <tbody>
                                 <tr v-for="product in products">
+                                    <td>{{ product.code }}</td>
                                     <td>{{ product.name }}</td>
                                     <td>{{ product.category_name }}</td>
                                     <td>{{ product.description }}</td>
@@ -90,8 +92,13 @@
                                             <span class="text-danger" ole="alert">{{ errorCategory }}</span>
                                         </div>
                                         <div class="form-group">
+                                            <label for="code">Codigo</label>
+                                            <input v-model="code" placeholder="Codigo del  producto ...." type="text" name="code" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorCode}">
+                                            <span class="text-danger" ole="alert">{{ errorCode }}</span>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="name">Nombre</label>
-                                            <input v-model="name" placeholder="Nombre categoria ...." type="text" name="name" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorName}">
+                                            <input v-model="name" placeholder="Nombre del producto ...." type="text" name="name" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorName}">
                                             <span class="text-danger" ole="alert">{{ errorName }}</span>
                                         </div>
                                         <div class="form-group">
@@ -121,9 +128,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import toastr from 'toastr'
-import 'toastr/build/toastr.css'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 
@@ -141,10 +145,12 @@ export default {
                 'to': 0
             },
             id: 0,
+            code: '',
             name: '',
             description: '',
             stock: 0,
             category_id: 'a',
+            errorCode: '',
             errorName: '',
             errorCategory: '',
             errorStock: '',
@@ -152,6 +158,7 @@ export default {
             typeAction: 0,
             offset: 3,
             search: '',
+            hasErrorCode: false,
             hasErrorName: false,
             hasErrorCategory: false,
             hasErrorStock: false,
@@ -240,6 +247,7 @@ export default {
         createProduct: function(){
             var url = 'products';
             axios.post(url, {
+                'code': this.code,
                 'category_id': this.category_id,
                 'name': this.name,
                 'description': this.description,
@@ -248,11 +256,15 @@ export default {
                 this.getProducts(1, '');
                 this.clear();
                 $('#modalProduct').modal('hide');
-                toastr.success('Nueva producto creada con exito', 'Producto', {
+                toastr.success('Nuevo producto creada con exito', 'Producto', {
                     "closeButton": true,
                     "positionClass": "toast-bottom-right"
                 });
             }).catch(error => {
+                if (typeof error.response.data.errors.code != 'undefined') {
+                    this.errorCode = error.response.data.errors.code[0];
+                    this.hasErrorCode = true;
+                }
                 if (typeof error.response.data.errors.name != 'undefined') {
                     this.errorName = error.response.data.errors.name[0];
                     this.hasErrorName = true;
@@ -273,6 +285,7 @@ export default {
             var url = 'products/' + id;
             axios.put(url, {
                 'id': this.id,
+                'code': this.code,
                 'category_id': this.category_id,
                 'name': this.name,
                 'description': this.description,
@@ -286,6 +299,10 @@ export default {
                     "positionClass": "toast-bottom-right"
                 });
             }).catch(error => {
+                if (typeof error.response.data.errors.code != 'undefined') {
+                    this.errorCode = error.response.data.errors.code[0];
+                    this.hasErrorCode = true;
+                }
                 if (typeof error.response.data.errors.name != 'undefined') {
                     this.errorName = error.response.data.errors.name[0];
                     this.hasErrorName = true;
@@ -304,7 +321,7 @@ export default {
         openModal: function(modal, product){
             if (modal == 'create'){
                 this.typeAction = 1;
-                this.modalTitle = 'Nueva Producto';
+                this.modalTitle = 'Nuevo Producto';
                 this.clear();
                 $('#modalProduct').modal('show');
                 this.hasErrorFalse();
@@ -314,6 +331,7 @@ export default {
                 this.typeAction = 2;
                 this.modalTitle = 'Actulizar Producto';
                 this.id = product.id;
+                this.code = product.code;
                 this.category_id = product.category_id;
                 this.name = product.name;
                 this.description = product.description;
@@ -325,6 +343,7 @@ export default {
 
         clear: function(){
             this.id = 0;
+            this.code = '';
             this.name = '';
             this.category_id = 'a';
             this.description = '';
@@ -333,9 +352,11 @@ export default {
         },
 
         hasErrorFalse: function(){
+            this.hasErrorCode= '',
             this.errorName = '';
             this.errorCategory = '';
             this.errorStock = '';
+            this.hasErrorCode = false;
             this.hasErrorName = false;
             this.hasErrorCategory = false;
             this.hasErrorStock = false;

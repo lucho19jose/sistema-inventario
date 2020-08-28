@@ -136,9 +136,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import toastr from 'toastr'
-import 'toastr/build/toastr.css'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 
@@ -264,7 +261,7 @@ export default {
                 this.getStaffs(1, '', '');
                 this.clear();
                 $('#modalStaff').modal('hide');
-                toastr.success('Nueva personal creada con exito', 'Personal', {
+                toastr.success('Nuevo personal creada con exito', 'Personal', {
                     "closeButton": true,
                     "positionClass": "toast-bottom-right"
                 });
@@ -345,7 +342,7 @@ export default {
         openModal: function(modal, staff){
             if (modal == 'create'){
                 this.typeAction = 1;
-                this.modalTitle = 'Nueva Personal';
+                this.modalTitle = 'Nuevo Personal';
                 this.clear();
                 $('#modalStaff').modal('show');
                 this.hasErrorFalse();

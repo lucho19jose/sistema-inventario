@@ -78,7 +78,7 @@
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label for="name">Nombre</label>
-                                            <input v-model="name" placeholder="Nombre categoria ...." type="text" name="name" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasError}">
+                                            <input v-model="name" placeholder="Nombre de la categoria ...." type="text" name="name" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasError}">
                                             <span class="text-danger" ole="alert">{{ errors }}</span>
                                         </div>
                                         <div class="form-group">
@@ -103,9 +103,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import toastr from 'toastr'
-import 'toastr/build/toastr.css'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 

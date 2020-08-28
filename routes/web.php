@@ -22,8 +22,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('categories', 'Admin\CategoryController')->except('show', 'create', 'edit');
 
 Route::resource('products', 'Admin\ProductController')->except('show', 'edit');
+Route::get('products/searchProduct', 'Admin\ProductController@searchProduct');
+Route::get('products/getProduct', 'Admin\ProductController@getProduct');
 
 Route::resource('providers', 'Admin\ProviderController')->except('show', 'create', 'edit');
+Route::get('providers/selectProvider', 'Admin\providerController@selectProvider');
 
 Route::resource('staffs', 'Admin\StaffController')->except('show', 'create', 'edit');
+
+Route::resource('inputs', 'Admin\inputController')->except('show', 'edit', 'create', 'destroy');
+Route::get('inputs/showInput', 'Admin\inputController@showInput');
+
 

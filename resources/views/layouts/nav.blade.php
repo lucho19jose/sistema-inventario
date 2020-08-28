@@ -29,6 +29,13 @@
                     <div class="dropdown-header text-center bg-light">
                         <strong>Cuenta</strong>
                     </div>
+                    <div class="pt-3">
+                        <a class="dropdown-item" href="#">
+                            <i class="fas fa-user"></i>
+                            <span> Editar Perfil</span>
+                        </a>
+                    </div>
+                    <hr>
                     <div class="px-2">
                         <a class="dropdown-item text-center bg-gradient-danger text-white" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
@@ -77,9 +84,9 @@
 
 <!-- Main Footer -->
 <footer class="main-footer text-center">
-    Copyright &copy; 2014-2019
+    Copyright &copy; 2020
     <strong>
-        <a href="https://adminlte.io">AdminLTE.io</a> | {{ config('app.name') }}
+        | {{ config('app.name') }}
     </strong>
 </footer>
 

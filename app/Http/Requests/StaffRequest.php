@@ -36,16 +36,16 @@ class StaffRequest extends FormRequest
     public function messages()
     {
         return[
-            'first_name.required' => 'Ingrese el nombre del personal',
-            'last_name.required'  => 'Ingrese el apellido del personal',
-            'dni.required'  => 'Ingrese el DNI del personal',
-            'dni.min'  => 'El DNI debe contener 8 digitos',
-            'dni.max'  => 'El DNI debe contener 8 digitos',
-            'address.required'  => 'Ingrese la direccion del personal',
-            'phone.required' => 'El telefono no puede estar vacio',
-            'phone.min' => 'El telefono debe contener 9 digitos',
-            'phone.max' => 'El telefono debe contener 9 digitos',
-            'email.email' => 'Ingrese un email valido',
+            'first_name.required' => 'Ingrese el nombre del personal.',
+            'last_name.required'  => 'Ingrese el apellido del personal.',
+            'dni.required'  => 'Ingrese el DNI del personal.',
+            'dni.min'  => 'El DNI debe contener 8 digitos.',
+            'dni.max'  => 'El DNI debe contener 8 digitos.',
+            'address.required'  => 'Ingrese la direccion del personal.',
+            'phone.required' => 'El telefono no puede estar vacio.',
+            'phone.min' => 'El telefono debe contener 9 digitos.',
+            'phone.max' => 'El telefono debe contener 9 digitos.',
+            'email.email' => 'Ingrese un email valido.',
         ];
     }
 }

@@ -80,4 +80,14 @@ class ProviderController extends Controller
         $provider= Provider::findOrFail($id);
         $provider->delete();
     }
+
+    public function selectProvider(Request $request){
+        $filter = $request->filter;
+        $providers = Provider::where('name', 'like', '%' . $filter . '%')
+            ->orderBy('name', 'ASC')->get();
+
+        return [
+            'providers' => $providers
+        ];
+    }
 }

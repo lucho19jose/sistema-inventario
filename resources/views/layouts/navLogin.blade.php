@@ -33,10 +33,10 @@
        @yield('content')
 </main>
 
-<footer class="bg-white text-center text-black-50 py-3 shadow fixed-bottom">
-    Copyright &copy; 2014-2019
+<footer class="main-footer text-center">
+    Copyright &copy; 2020
     <strong>
-        <a href="https://adminlte.io">AdminLTE.io</a> | {{ config('app.name') }}
+        | {{ config('app.name') }}
     </strong>
 </footer>
 </div>

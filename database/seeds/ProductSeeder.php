@@ -12,9 +12,10 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-    	factory(Product::class, 300)->create();
+    	factory(Product::class, 200)->create();
 
     	Product::create([
+            'code' => '123A42',
     		'category_id' => '12',
     		'name' => 'Cuaderno A4 Justus',
     		'description' => null,
