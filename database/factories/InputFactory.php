@@ -11,8 +11,8 @@ $factory->define(Input::class, function (Faker $faker) {
     	'user_id' => rand(1, 10),
     	'provider_id' => rand(1, 10),
     	'voucher_type' => $faker->randomElement(['Boleta', 'Factura']),
-    	'voucher_serie' => $faker->randomElement(['0001', '0002', '0003']),
-    	'voucher_number' => rand(100000000, 999999999),
+    	'voucher_serie' => $faker->randomElement(['001', '002', '003']),
+    	'voucher_number' => rand(1000000000, 9999999999),
     	'observation' => $faker->randomElement([null, $observation, null]),
     	'total' => rand(100, 9999),
     ];

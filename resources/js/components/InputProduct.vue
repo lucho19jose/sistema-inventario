@@ -349,7 +349,7 @@
                                         </div>
                                         <div class="table-responsive">
                                             <table class="table table-bordered table-striped table-sm">
-                                             <thead>
+                                               <thead>
                                                 <tr>
                                                     <th>Código</th>
                                                     <th>Nombre</th>
@@ -393,7 +393,8 @@ Vue.component('v-select', vSelect)
 import 'vue-select/dist/vue-select.css'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
-
+//Cambiar el formato de las fechas al español
+moment.locale('es');
 export default {
     data(){
         return {
@@ -488,7 +489,7 @@ export default {
     methods: {
 
         date: function(d){
-            return moment(d).subtract(10, 'days').calendar();
+            return moment(d).format('L');
         },
 
         //Obtner entradas
@@ -536,6 +537,8 @@ export default {
                 }
                 else{
                     this.product = 'No existe este producto.';
+                    this.hasErrorProductId = true;
+                    this.errorProductId = 'No existe este producto.';
                     this.product_id = 0;
                 }
             });

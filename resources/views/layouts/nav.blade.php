@@ -83,7 +83,7 @@
 <!-- /.content-wrapper -->
 
 <!-- Main Footer -->
-<footer class="main-footer text-center">
+<footer class="bg-white main-footer text-center text-black-50 py-3">
     Copyright &copy; 2020
     <strong>
         | {{ config('app.name') }}

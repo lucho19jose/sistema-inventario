@@ -18,6 +18,7 @@ class CreateBranchesTable extends Migration
 
             $table->string('name');
             $table->string('address');
+            $table->string('city');
 
             $table->timestamps();
         });

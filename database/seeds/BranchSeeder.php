@@ -17,6 +17,7 @@ class BranchSeeder extends Seeder
     	Branch::create([
     		'name' => 'Raulins',
     		'address' => 'Pasaje Malvinas 282 frente al coliseo IPD Av. Peru 381 Andahuaylas',
+            'city' => 'Andahuaylas'
     	]);
     }
 }

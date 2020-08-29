@@ -380,9 +380,9 @@ export default {
             this.hasErrorLastName = false;
             this.errorDNI = '';
             this.hasErrorDNI = false;
-            this.errorPhone = '';
-            this.hasErrorAddress = false;
             this.errorAddress = '';
+            this.hasErrorAddress = false;
+            this.errorPhone = '';
             this.hasErrorPhone = false;
             this.errorEmail = '';
             this.hasErrorEmail = false;

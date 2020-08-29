@@ -12,7 +12,7 @@ class StaffSeeder extends Seeder
      */
     public function run()
     {
-        factory(Staff::class, 50)->create();
+        factory(Staff::class, 20)->create();
 
     	Staff::create([
     		'first_name' => 'Yefer Antoni',

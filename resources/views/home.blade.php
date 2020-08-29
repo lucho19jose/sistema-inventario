@@ -26,6 +26,9 @@
         <staff></staff>
     </template>
 
+    <template v-if="menu==7">
+        <branch></branch>
+    </template>
     @endif
 
 @endsection

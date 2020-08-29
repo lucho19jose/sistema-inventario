@@ -24,7 +24,7 @@ class CategoryController extends Controller
     {
         $search = $request->search;
         if ($search == '') {
-            $categories = Category::orderBy('id', 'DESC')->paginate(10);
+            $categories = Category::orderBy('id', 'DESC')->paginate(8);
         }
         else{
             $categories = Category::where('name', 'like', '%' . $search . '%')->orderBy('id', 'DESC')->paginate(10);

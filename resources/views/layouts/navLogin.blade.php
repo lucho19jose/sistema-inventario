@@ -33,7 +33,8 @@
        @yield('content')
 </main>
 
-<footer class="main-footer text-center">
+
+<footer class="fixed-bottom bg-white text-center text-black-50 py-3">
     Copyright &copy; 2020
     <strong>
         | {{ config('app.name') }}

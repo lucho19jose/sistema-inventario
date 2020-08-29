@@ -70,6 +70,12 @@
                             <p>Personal</p>
                         </a>
                     </li>
+                    <li v-on:click.prevent="menu=7" class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-home nav-icon"></i>
+                            <p>Sucursal</p>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -81,13 +87,13 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    <li v-on:click.prevent="menu=7" class="nav-item">
+                    <li v-on:click.prevent="menu=8" class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-user-tie nav-icon"></i>
                             <p>Usuarios</p>
                         </a>
                     </li>
-                    <li v-on:click.prevent="menu=8" class="nav-item">
+                    <li v-on:click.prevent="menu=9" class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-user-cog nav-icon"></i>
                             <p>Roles</p>
@@ -104,13 +110,13 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    <li v-on:click.prevent="menu=9" class="nav-item">
+                    <li v-on:click.prevent="menu=10" class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-clipboard-list nav-icon"></i>
                             <p>Ingreso de Productos</p>
                         </a>
                     </li>
-                    <li v-on:click.prevent="menu=10" class="nav-item">
+                    <li v-on:click.prevent="menu=11" class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-clipboard nav-icon"></i>
                             <p>Salida de Productos</p>
