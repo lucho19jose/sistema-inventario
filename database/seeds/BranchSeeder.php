@@ -15,9 +15,14 @@ class BranchSeeder extends Seeder
         factory(Branch::class, 5)->create();
 
     	Branch::create([
-    		'name' => 'Raulins',
+    		'name' => 'Raulins Lampa de Oro',
     		'address' => 'Pasaje Malvinas 282 frente al coliseo IPD Av. Peru 381 Andahuaylas',
             'city' => 'Andahuaylas'
     	]);
+        Branch::create([
+            'name' => 'Raulins Feria Dominical',
+            'address' => 'Av. Peru 305 Andahuaylas',
+            'city' => 'Andahuaylas'
+        ]);
     }
 }

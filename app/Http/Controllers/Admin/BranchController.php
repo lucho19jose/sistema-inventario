@@ -82,4 +82,14 @@ class BranchController extends Controller
         $branch =  Branch::findOrFail($id);
         $branch->delete();
     }
+
+    public function selectBranch(Request $request){
+        $filter = $request->filter;
+        $branches = Branch::where('name', 'like', '%' . $filter . '%')
+            ->orderBy('name', 'ASC')->get();
+
+        return [
+            'branches' => $branches
+        ];
+    }
 }

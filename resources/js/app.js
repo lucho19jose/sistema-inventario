@@ -31,6 +31,7 @@ Vue.component('provider', require('./components/Provider.vue').default);
 Vue.component('staff', require('./components/Staff.vue').default);
 Vue.component('inputproduct', require('./components/InputProduct.vue').default);
 Vue.component('branch', require('./components/Branch.vue').default);
+Vue.component('outputproduct', require('./components/OutputProduct.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

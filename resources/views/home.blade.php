@@ -22,6 +22,10 @@
         <provider></provider>
     </template>
 
+    <template v-if="menu==5">
+        <outputproduct></outputproduct>
+    </template>
+
     <template v-if="menu==6">
         <staff></staff>
     </template>

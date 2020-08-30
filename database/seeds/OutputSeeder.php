@@ -13,7 +13,7 @@ class OutputSeeder extends Seeder
      */
     public function run()
     {
-        factory(Output::class, 100)->create();
+        factory(Output::class, 30)->create();
 
         factory(OutputProduct::class, 100)->create();
     }

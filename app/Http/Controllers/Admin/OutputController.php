@@ -4,28 +4,56 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Output;
+use App\OutputProduct;
+use App\Product;
+use App\Http\Requests\OutputRequest;
+use TJGazel\Toastr\Facades\Toastr;
 
 class OutputController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+
+    public function __construct(){
+        $this->middleware('auth');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function index(Request $request)
     {
-        //
+        $search = $request->search;
+        $criterion = $request->criterion;
+
+        if($search == ''){
+            $outputs = Output::select('outputs.id', 'outputs.voucher_type', 'outputs.voucher_serie', 'outputs.voucher_number', 'outputs.observation', 'outputs.created_at', Output::raw('CONCAT(staff.last_name, ", ", staff.first_name) as staff_name'), 'users.email as user_email', 'users.id as user_id', 'branches.name as branch_name')
+            ->join('staff', 'staff.id', '=', 'outputs.staff_id')
+            ->join('users', 'users.id', '=', 'outputs.user_id')
+            ->join('branches', 'branches.id', '=', 'outputs.branch_id')
+            ->orderBy('outputs.id', 'DESC')
+            ->paginate(8);
+        }
+        else{
+            $outputs = Output::select('outputs.id', 'outputs.voucher_type', 'outputs.voucher_serie', 'outputs.voucher_number', 'outputs.observation', 'outputs.created_at', Output::raw('CONCAT(staff.last_name, ", ", staff.first_name) as staff_name'), 'users.email as user_email', 'users.id as user_id', 'branches.name as branch_name')
+            ->join('staff', 'staff.id', '=', 'outputs.staff_id')
+            ->join('users', 'users.id', '=', 'outputs.user_id')
+            ->join('branches', 'branches.id', '=', 'outputs.branch_id')
+            ->where('outputs.'.$criterion, 'like', '%' . $search . '%')
+            ->orderBy('outputs.id', 'DESC')
+            ->paginate(8);
+        }
+
+        return [
+            'pagination' => [
+                'total' => $outputs->total(),
+                'current_page' => $outputs->currentPage(),
+                'per_page' => $outputs->perPage(),
+                'last_page' => $outputs->lastPage(),
+                'from' => $outputs->firstItem(),
+                'to' => $outputs->lastItem(),
+            ],
+            'outputs' => $outputs
+        ];
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -33,22 +61,48 @@ class OutputController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OutputRequest $request)
     {
-        //
+        $output = Output::create($request->validated());
+        //Arrar con todos los detalles de los productos
+        $details = $request->data;
+        foreach ($details as $key => $detail) {
+            $outputProduct = new OutputProduct();
+            $outputProduct->product_id = $detail['product_id'];
+            $outputProduct->output_id = $output->id;
+            $outputProduct->quantity = $detail['quantity'];
+            $outputProduct->save();
+
+            //Actualizar el stock
+            $product = Product::find($detail['product_id']);
+            $product->stock = $product->stock - $detail['quantity'];
+            $product->save();
+        }
+        return;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+    public function showOutput(Request $request){
+        $id = $request->id;
 
+        $outputs = Output::select('outputs.id', 'outputs.voucher_type', 'outputs.voucher_serie', 'outputs.voucher_number', 'outputs.observation', 'outputs.created_at', Output::raw('CONCAT(staff.last_name, ", ", staff.first_name) as staff_name'), 'branches.name as branch_name')
+            ->join('staff', 'staff.id', '=', 'outputs.staff_id')
+            ->join('branches', 'branches.id', '=', 'outputs.branch_id')
+            ->where('outputs.id', '=', $id)
+            ->orderBy('outputs.id', 'DESC')
+            ->take(1)
+            ->get();
+
+        $detailProducts = OutputProduct::select('output_product.quantity', 'products.name as product')
+            ->join('products', 'products.id', '=', 'output_product.product_id')
+            ->where('output_product.output_id', '=', $id)
+            ->orderBy('output_product.id', 'DESC')
+            ->get();
+
+        return [
+            'outputs' => $outputs,
+            'detailProducts' => $detailProducts
+        ];
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -67,19 +121,9 @@ class OutputController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(OutputRequest $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

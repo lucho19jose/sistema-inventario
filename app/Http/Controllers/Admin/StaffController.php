@@ -76,4 +76,16 @@ class StaffController extends Controller
     	$staff = Staff::findOrFail($id);
     	$staff->delete();
     }
+
+    public function selectStaff(Request $request){
+        $filter = $request->filter;
+        $staffs = Staff::select('id', Staff::raw('CONCAT(last_name, " ", first_name) as staff_name'))
+            ->where('first_name', 'like', '%' . $filter . '%')
+            ->orWhere('last_name', 'like', '%' . $filter . '%')
+            ->orderBy('first_name', 'ASC')->get();
+
+        return [
+            'staffs' => $staffs
+        ];
+    }
 }

@@ -12,11 +12,7 @@ use TJGazel\Toastr\Facades\Toastr;
 
 class InputController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function __construct(){
         $this->middleware('auth');
     }
@@ -74,6 +70,7 @@ class InputController extends Controller
             $inputProduct->price = $detail['price'];
             $inputProduct->save();
 
+            //Actualizar el stock
             $product = Product::find($detail['product_id']);
             $product->stock = $product->stock + $detail['quantity'];
             $product->save();

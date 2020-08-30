@@ -33,6 +33,7 @@ Route::get('providers/selectProvider', 'Admin\providerController@selectProvider'
 
 //Rutas de los personales
 Route::resource('staffs', 'Admin\StaffController')->except('show', 'create', 'edit');
+Route::get('staffs/selectStaff', 'Admin\StaffController@selectStaff');
 
 //Rutas de las entradas de productos
 Route::resource('inputs', 'Admin\inputController')->only('index', 'store');
@@ -40,6 +41,7 @@ Route::get('inputs/showInput', 'Admin\inputController@showInput');
 
 //Rutas de las sucursales
 Route::resource('branches', 'Admin\BranchController')->except('show', 'create', 'edit');
+Route::get('branches/selectBranch', 'Admin\BranchController@selectBranch');
 
 //Rutas rutas ded las salidad de productos
 Route::resource('outputs', 'Admin\OutputController')->only('index', 'store');
