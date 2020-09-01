@@ -9,6 +9,7 @@ use App\InputProduct;
 use App\Product;
 use App\Http\Requests\InputRequest;
 use TJGazel\Toastr\Facades\Toastr;
+use Carbon\Carbon;
 
 class InputController extends Controller
 {
@@ -97,6 +98,62 @@ class InputController extends Controller
         return [
             'inputs' => $inputs,
             'detailProducts' => $detailProducts
+        ];
+    }
+
+    public function inputReport(Request $request)
+    {
+        $criterionVoucher = $request->criterionVoucher;
+        $initialDate = $request->initialDate;
+        $finalDate = $request->finalDate;
+
+        if($initialDate == '' && $finalDate == '' && $criterionVoucher == ''){
+            $inputs = Input::select('inputs.id', 'inputs.voucher_type', 'inputs.voucher_serie', 'inputs.voucher_number', 'inputs.observation', 'inputs.total', 'inputs.created_at', 'providers.name as provider_name', 'users.email as user_email', 'users.id as user_id')
+            ->join('providers', 'providers.id', '=', 'inputs.provider_id')
+            ->join('users', 'users.id', '=', 'inputs.user_id')
+            ->orderBy('inputs.id', 'DESC')
+            ->paginate(8);
+        }
+        else{
+            if ($finalDate == '') {
+                $finalDate = Carbon::now()->format('d-m-Y');
+            }
+            if ($initialDate == '') {
+                $minDate = Input::select(Input::raw('MIN(created_at) as min_date'))->take(1)->get();
+                $initialDate = $minDate[0]['min_date'];
+            }
+
+            if ($criterionVoucher == '') {
+                $inputs = Input::select('inputs.id', 'inputs.voucher_type', 'inputs.voucher_serie', 'inputs.voucher_number', 'inputs.observation', 'inputs.total', 'inputs.created_at', 'providers.name as provider_name', 'users.email as user_email')
+                ->join('providers', 'providers.id', '=', 'inputs.provider_id')
+                ->join('users', 'users.id', '=', 'inputs.user_id')
+                ->where('inputs.created_at', '>=', $initialDate)
+                ->where('inputs.created_at', '<=', $finalDate)
+                ->orderBy('inputs.id', 'DESC')
+                ->paginate(8);
+             }
+             else{
+                $inputs = Input::select('inputs.id', 'inputs.voucher_type', 'inputs.voucher_serie', 'inputs.voucher_number', 'inputs.observation', 'inputs.total', 'inputs.created_at', 'providers.name as provider_name', 'users.email as user_email')
+                ->join('providers', 'providers.id', '=', 'inputs.provider_id')
+                ->join('users', 'users.id', '=', 'inputs.user_id')
+                ->where('inputs.voucher_type', '=', $criterionVoucher)
+                ->where('inputs.created_at', '>=', $initialDate)
+                ->where('inputs.created_at', '<=', $finalDate)
+                ->orderBy('inputs.id', 'DESC')
+                ->paginate(8);
+             }
+        }
+
+        return [
+            'pagination' => [
+                'total' => $inputs->total(),
+                'current_page' => $inputs->currentPage(),
+                'per_page' => $inputs->perPage(),
+                'last_page' => $inputs->lastPage(),
+                'from' => $inputs->firstItem(),
+                'to' => $inputs->lastItem(),
+            ],
+            'inputs' => $inputs
         ];
     }
 

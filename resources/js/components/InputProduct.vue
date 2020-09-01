@@ -6,7 +6,7 @@
                     <div class="card-header">
                         <h4>
                             <i class="fa fa-align-justify"></i>
-                            Entradas de Productos
+                            Ingreso de Productos
                             <a v-on:click.prevent="showDetail()" href="#" class="btn btn-primary float-right">
                                 <i class="fas fa-plus-circle"></i> Nuevo
                             </a>
@@ -489,7 +489,7 @@ export default {
             return moment(d).format('L');
         },
 
-        //Obtner entradas
+        //Obtner Ingresos
         getInputs: function(page, search, criterion){
             var url = 'inputs?page=' + page + '&search=' + search + '&criterion=' + criterion;
             axios.get(url).then(response => {
@@ -729,7 +729,7 @@ export default {
             this.quantity = 0;
             this.price = 0;
             this.total = 0.0;
-            this.detailProducts= [],
+            this.detailProducts= [];
             this.hasErrorFalse();
         },
 

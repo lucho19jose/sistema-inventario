@@ -30,7 +30,7 @@
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-clipboard-list"></i>
                     <p>
-                        Entradas
+                        Ingresos
                         <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
@@ -38,7 +38,7 @@
                     <li v-on:click.prevent="menu=3" class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-clipboard-list nav-icon"></i>
-                            <p>Entradas</p>
+                            <p>Ingreso</p>
                         </a>
                     </li>
                     <li v-on:click.prevent="menu=4" class="nav-item">
@@ -61,7 +61,7 @@
                     <li v-on:click.prevent="menu=5" class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-clipboard nav-icon"></i>
-                            <p>Salidas</p>
+                            <p>Salida</p>
                         </a>
                     </li>
                     <li v-on:click.prevent="menu=6" class="nav-item">
@@ -120,6 +120,12 @@
                         <a href="#" class="nav-link">
                             <i class="fas fa-clipboard nav-icon"></i>
                             <p>Salida de Productos</p>
+                        </a>
+                    </li>
+                    <li v-on:click.prevent="menu=12" class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-check-square nav-icon"></i>
+                            <p>Stock Disponible</p>
                         </a>
                     </li>
                 </ul>

@@ -33,6 +33,18 @@
     <template v-if="menu==7">
         <branch></branch>
     </template>
+
+    <template v-if="menu==10">
+        <inputreport></inputreport>
+    </template>
+
+    <template v-if="menu==11">
+        <outputreport></outputreport>
+    </template>
+
+    <template v-if="menu==12">
+        <stockreport></stockreport>
+    </template>
     @endif
 
 @endsection

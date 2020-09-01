@@ -9,6 +9,7 @@ use App\OutputProduct;
 use App\Product;
 use App\Http\Requests\OutputRequest;
 use TJGazel\Toastr\Facades\Toastr;
+use Carbon\Carbon;
 
 class OutputController extends Controller
 {
@@ -103,6 +104,67 @@ class OutputController extends Controller
             'detailProducts' => $detailProducts
         ];
     }
+
+
+    public function outputReport(Request $request)
+    {
+        $criterionVoucher = $request->criterionVoucher;
+        $initialDate = $request->initialDate;
+        $finalDate = $request->finalDate;
+
+        if($initialDate == '' && $finalDate == '' && $criterionVoucher == ''){
+            $outputs = Output::select('outputs.id', 'outputs.voucher_type', 'outputs.voucher_serie', 'outputs.voucher_number', 'outputs.observation', 'outputs.created_at', Output::raw('CONCAT(staff.last_name, ", ", staff.first_name) as staff_name'), 'users.email as user_email', 'users.id as user_id', 'branches.name as branch_name')
+            ->join('staff', 'staff.id', '=', 'outputs.staff_id')
+            ->join('users', 'users.id', '=', 'outputs.user_id')
+            ->join('branches', 'branches.id', '=', 'outputs.branch_id')
+            ->orderBy('outputs.id', 'DESC')
+            ->paginate(8);
+        }
+        else{
+            if ($finalDate == '') {
+                $finalDate = Carbon::now()->format('d-m-Y');
+            }
+            if ($initialDate == '') {
+                $minDate = Output::select(Output::raw('MIN(created_at) as min_date'))->take(1)->get();
+                $initialDate = $minDate[0]['min_date'];
+            }
+
+            if ($criterionVoucher == '') {
+                $outputs = Output::select('outputs.id', 'outputs.voucher_type', 'outputs.voucher_serie', 'outputs.voucher_number', 'outputs.observation', 'outputs.created_at', Output::raw('CONCAT(staff.last_name, ", ", staff.first_name) as staff_name'), 'users.email as user_email', 'users.id as user_id', 'branches.name as branch_name')
+                ->join('staff', 'staff.id', '=', 'outputs.staff_id')
+                ->join('users', 'users.id', '=', 'outputs.user_id')
+                ->join('branches', 'branches.id', '=', 'outputs.branch_id')
+                ->where('outputs.created_at', '>=', $initialDate)
+                ->where('outputs.created_at', '<=', $finalDate)
+                ->orderBy('outputs.id', 'DESC')
+                ->paginate(8);
+             }
+             else{
+                $outputs = Output::select('outputs.id', 'outputs.voucher_type', 'outputs.voucher_serie', 'outputs.voucher_number', 'outputs.observation', 'outputs.created_at', Output::raw('CONCAT(staff.last_name, ", ", staff.first_name) as staff_name'), 'users.email as user_email', 'users.id as user_id', 'branches.name as branch_name')
+                ->join('staff', 'staff.id', '=', 'outputs.staff_id')
+                ->join('users', 'users.id', '=', 'outputs.user_id')
+                ->join('branches', 'branches.id', '=', 'outputs.branch_id')
+                ->where('outputs.voucher_type', '=', $criterionVoucher)
+                ->where('outputs.created_at', '>=', $initialDate)
+                ->where('outputs.created_at', '<=', $finalDate)
+                ->orderBy('outputs.id', 'DESC')
+                ->paginate(8);
+             }
+        }
+
+        return [
+            'pagination' => [
+                'total' => $outputs->total(),
+                'current_page' => $outputs->currentPage(),
+                'per_page' => $outputs->perPage(),
+                'last_page' => $outputs->lastPage(),
+                'from' => $outputs->firstItem(),
+                'to' => $outputs->lastItem(),
+            ],
+            'outputs' => $outputs
+        ];
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

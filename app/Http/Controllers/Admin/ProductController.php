@@ -134,4 +134,42 @@ class ProductController extends Controller
         ];
     }
 
+    public function stockReport(Request $request)
+    {
+        $search = $request->search;
+        $criterion = $request->criterion;
+        $order = $request->order;
+
+        $or = 'DESC';
+
+        if ($search == '') {
+            $products = Product::select('products.id', 'products.code', 'products.name', 'products.description', 'products.stock', 'products.category_id', 'categories.name as category_name', 'products.updated_at')
+                ->join('categories', 'categories.id', '=', 'products.category_id')
+                ->orderBy('products.stock', $order)
+                ->paginate(8);
+        }
+        else{
+            $products = Product::select('products.id', 'products.code', 'products.name', 'products.description', 'products.stock', 'products.category_id', 'categories.name as category_name', 'products.updated_at')
+                ->join('categories', 'categories.id', '=', 'products.category_id')
+                ->where('products.'.$criterion, 'like', '%' . $search . '%')
+                ->orderBy('products.stock', $order)
+                ->paginate(8);
+        }
+
+        return [
+            'pagination' => [
+                'total' => $products->total(),
+                'current_page' => $products->currentPage(),
+                'per_page' => $products->perPage(),
+                'last_page' => $products->lastPage(),
+                'from' => $products->firstItem(),
+                'to' => $products->lastItem(),
+            ],
+            'products' => $products,
+            'order' => $order,
+            'or' => $or
+        ];
+    }
+
+
 }
