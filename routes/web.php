@@ -49,3 +49,5 @@ Route::get('branches/selectBranch', 'Admin\BranchController@selectBranch');
 Route::resource('outputs', 'Admin\OutputController')->only('index', 'store');
 Route::get('outputs/showOutput', 'Admin\OutputController@showOutput');
 Route::get('outputs/outputReport', 'Admin\OutputController@outputReport');
+
+Route::resource('users', 'Admin\UserController')->except('show', 'edit');

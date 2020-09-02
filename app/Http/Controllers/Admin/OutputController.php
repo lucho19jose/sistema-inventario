@@ -122,7 +122,7 @@ class OutputController extends Controller
         }
         else{
             if ($finalDate == '') {
-                $finalDate = Carbon::now()->format('d-m-Y');
+                $finalDate = Carbon::tomorrow()->format('Y-m-d');
             }
             if ($initialDate == '') {
                 $minDate = Output::select(Output::raw('MIN(created_at) as min_date'))->take(1)->get();

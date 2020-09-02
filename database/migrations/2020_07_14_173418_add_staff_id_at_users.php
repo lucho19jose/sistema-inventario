@@ -19,7 +19,6 @@ class AddStaffIdAtUsers extends Migration
                 ->after('id');
 
             $table->foreign('staff_id')->references('id')->on('staff')
-                ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
     }

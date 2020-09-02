@@ -352,7 +352,7 @@ export default {
         },
 
         hasErrorFalse: function(){
-            this.hasErrorCode= '',
+            this.errorCode= '',
             this.errorName = '';
             this.errorCategory = '';
             this.errorStock = '';

@@ -34,6 +34,10 @@
         <branch></branch>
     </template>
 
+    <template v-if="menu==8">
+        <user></user>
+    </template>
+
     <template v-if="menu==10">
         <inputreport></inputreport>
     </template>

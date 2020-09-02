@@ -35,6 +35,7 @@ Vue.component('outputproduct', require('./components/OutputProduct.vue').default
 Vue.component('inputreport', require('./components/InputReport.vue').default);
 Vue.component('outputreport', require('./components/OutputReport.vue').default);
 Vue.component('stockreport', require('./components/StockReport.vue').default);
+Vue.component('user', require('./components/User.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
