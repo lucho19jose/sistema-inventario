@@ -7,7 +7,7 @@
                         <h4>
                             <i class="fa fa-align-justify"></i>
                             Sucursal
-                            <a v-on:click.prevent="openModal('create')" href="#" class="btn btn-primary float-right">
+                            <a v-if="$can('branch.create')" v-on:click.prevent="openModal('create')" href="#" class="btn btn-primary float-right">
                                 <i class="fas fa-plus-circle"></i> Nuevo
                             </a>
                         </h4>
@@ -102,7 +102,7 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                         <button v-if="typeAction==1" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="createBranch">Guardar</button>
-                                        <button v-if="typeAction==2" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="updateBranch(id)">Actulizar</button>
+                                        <button v-if="typeAction==2" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="updateBranch(id)">Actualizar</button>
                                     </div>
                                 </div>
                             </div>
@@ -290,7 +290,7 @@ export default {
             else if(modal == 'edit'){
                 this.hasErrorFalse();
                 this.typeAction = 2;
-                this.modalTitle = 'Actulizar Sucursal';
+                this.modalTitle = 'Actualizar Sucursal';
                 this.id = branch.id;
                 this.name = branch.name;
                 this.address = branch.address;

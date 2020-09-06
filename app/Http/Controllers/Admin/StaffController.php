@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Staff;
 use App\Http\Requests\StaffRequest;
+use App\Http\Requests\StaffUpdateRequest;
 use TJGazel\Toastr\Facades\Toastr;
 
 class StaffController extends Controller
@@ -59,7 +60,7 @@ class StaffController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StaffRequest $request, $id)
+    public function update(StaffUpdateRequest $request, $id)
     {
         Staff::find($id)->update($request->validated());
         return;

@@ -12,8 +12,6 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        factory(User::class, 9)->create();
-
         User::create([
         	'staff_id' => '21',
         	'email' => 'yeferanto96@gmail.com',
@@ -22,10 +20,15 @@ class UserSeeder extends Seeder
         	'remember_token' => Str::random(10),
         ]);
 
-        /*Role::create([
-            'name' => 'Admin',
-            'slug' => 'admin',
-            'special' => 'all-access'
-        ]);*/
+        User::create([
+            'staff_id' => '20',
+            'email' => 'almacenero@gmail.com',
+            'email_verified_at' => now(),
+            'password' =>bcrypt('unajma1512'),
+            'remember_token' => Str::random(10),
+        ]);
+
+        factory(User::class, 8)->create();
+
     }
 }

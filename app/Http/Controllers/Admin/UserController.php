@@ -9,6 +9,7 @@ use App\Staff;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 use TJGazel\Toastr\Facades\Toastr;
 
 class UserController extends Controller
@@ -61,15 +62,29 @@ class UserController extends Controller
                 'from' => $users->firstItem(),
                 'to' => $users->lastItem(),
             ],
-            'users' => $users
+            'users' => $users,
         ];
     }
 
 
-    public function create()
+    public function create(Request $request)
     {
-        $staffs = Staff::select('id', Staff::raw('CONCAT(last_name, " ", first_name) as staff_name'))->orderBy('last_name', 'ASC')->get();
-        return ['staffs' => $staffs];
+        if($request->role != '0'){
+            $id = $request->role;
+            $user = User::find($id);
+            $role = $user->getRoleNames();
+        }
+        else{
+            $role = ['a'];
+        }
+
+        $staffs = Staff::select('id', Staff::raw('CONCAT(last_name, " ", first_name) as staff_name'), 'email', 'dni')->orderBy('last_name', 'ASC')->get();
+        $roles = Role::get();
+        return [
+            'staffs' => $staffs,
+            'roles' => $roles,
+            'role' => $role
+        ];
     }
 
     /**
@@ -85,6 +100,9 @@ class UserController extends Controller
         $user->staff_id = $request->staff_id;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
+        if ($request->role != '') {
+            $user->assignRole($request->role);
+        }
         $user->save();
         return;
     }
@@ -96,13 +114,33 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserUpdateRequest $request, $id)
+
+    public function reset($id)
     {
-        $request->validated();
         $user = User::find($id);
-        $user->password = Hash::make($request->password);
+        $staff = User::select('staff.dni as staff_dni')
+            ->join('staff', 'staff.id', '=', 'users.staff_id')
+            ->where('users.id', '=', $id)
+            ->take(1)
+            ->get();
+        $user->password = Hash::make($staff[0]['staff_dni']);
         $user->save();
-        return;
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
+        if ($request->role != 'a') {
+            $role = Role::where('name', '=', $request->role)->get();
+            $user->roles()->sync($role[0]['id']);
+        }
+        else{
+            $role = $user->getRoleNames();
+            $role = Role::where('name', '=', $role)->get();
+            $user->removeRole($role[0]['id']);
+        }
+
     }
 
     /**

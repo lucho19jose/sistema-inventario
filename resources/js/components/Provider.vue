@@ -110,7 +110,7 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                         <button v-if="typeAction==1" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="createProvider">Guardar</button>
-                                        <button v-if="typeAction==2" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="updateProvider(id)">Actulizar</button>
+                                        <button v-if="typeAction==2" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="updateProvider(id)">Actualizar</button>
                                     </div>
                                 </div>
                             </div>
@@ -313,7 +313,7 @@ export default {
             else if(modal == 'edit'){
                 this.hasErrorFalse();
                 this.typeAction = 2;
-                this.modalTitle = 'Actulizar Proveedor';
+                this.modalTitle = 'Actualizar Proveedor';
                 this.id = provider.id;
                 this.name = provider.name;
                 this.ruc = provider.ruc;

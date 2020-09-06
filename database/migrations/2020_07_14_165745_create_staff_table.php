@@ -18,10 +18,10 @@ class CreateStaffTable extends Migration
 
             $table->string('first_name', 120);
             $table->string('last_name', 120);
-            $table->string('dni', 8)->nullable();
-            $table->string('address')->nullable();
-            $table->string('phone', 9)->nullable();
-            $table->string('email')->nullable();
+            $table->string('dni', 8);
+            $table->string('address');
+            $table->string('phone', 9);
+            $table->string('email')->unique();
 
             $table->timestamps();
         });

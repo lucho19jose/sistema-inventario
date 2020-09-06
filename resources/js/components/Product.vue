@@ -115,7 +115,7 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                         <button v-if="typeAction==1" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="createProduct">Guardar</button>
-                                        <button v-if="typeAction==2" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="updateProduct(id)">Actulizar</button>
+                                        <button v-if="typeAction==2" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="updateProduct(id)">Actualizar</button>
                                     </div>
                                 </div>
                             </div>
@@ -329,7 +329,7 @@ export default {
             else if(modal == 'edit'){
                 this.hasErrorFalse();
                 this.typeAction = 2;
-                this.modalTitle = 'Actulizar Producto';
+                this.modalTitle = 'Actualizar Producto';
                 this.id = product.id;
                 this.code = product.code;
                 this.category_id = product.category_id;
@@ -352,7 +352,7 @@ export default {
         },
 
         hasErrorFalse: function(){
-            this.errorCode= '',
+            this.errorCode= '';
             this.errorName = '';
             this.errorCategory = '';
             this.errorStock = '';

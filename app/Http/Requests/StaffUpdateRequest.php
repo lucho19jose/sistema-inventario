@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StaffRequest extends FormRequest
+class StaffUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +29,7 @@ class StaffRequest extends FormRequest
             'dni'  => 'required|numeric|min:10000000|max:99999999',
             'address'  => 'required',
             'phone'  => 'required|numeric|min:100000000|max:999999999',
-            'email'  => 'required|email|unique:staff,email'
+            'email'  => 'required|email|unique:staff,email,' . $this->staff,
         ];
     }
 

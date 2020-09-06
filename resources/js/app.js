@@ -23,6 +23,9 @@ import 'toastr/build/toastr.css'
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+//mixin
+import Permissions from './mixins/Permissions';
+Vue.mixin(Permissions);
 
 Vue.component('welcome', require('./components/Welcome.vue').default);
 Vue.component('category', require('./components/Category.vue').default);
@@ -36,6 +39,7 @@ Vue.component('inputreport', require('./components/InputReport.vue').default);
 Vue.component('outputreport', require('./components/OutputReport.vue').default);
 Vue.component('stockreport', require('./components/StockReport.vue').default);
 Vue.component('user', require('./components/User.vue').default);
+Vue.component('role', require('./components/Role.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

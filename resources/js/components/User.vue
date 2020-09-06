@@ -32,7 +32,7 @@
                                     <th>Nombre de Personal</th>
                                     <th>Correo electrónico</th>
                                     <th>Creado</th>
-                                    <th colspan="2">Opciones</th>
+                                    <th colspan="3">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -40,6 +40,9 @@
                                     <td>{{ user.staff_name }}</td>
                                     <td>{{ user.email }}</td>
                                     <td>{{ date(user.created_at) }}</td>
+                                    <td width="10px">
+                                        <a v-on:click.prevent="resetUser(user.id)" href="#" class="btn btn-primary btn-sm"><i class="fas fa-sync-alt"></i></a>
+                                    </td>
                                     <td width="10px">
                                         <a v-on:click.prevent="openModal('edit', user)" href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                                     </td>
@@ -84,7 +87,7 @@
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label for="staff">Personal</label>
-                                            <select v-model="staff_id" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorStaff}">
+                                            <select v-model="staff_id" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorStaff}" v-on:change="getStaffEmail">
                                                 <option value="" disabled>Seleccione</option>
                                                 <option v-for="staff in staffs" :key="staff.id" :value="staff.id" v-text="staff.staff_name">
                                                 </option>
@@ -93,7 +96,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="email">Correo electrónico</label>
-                                            <input v-model="email" placeholder="Correo electronico del  usuario ...." type="text" name="email" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorEmail}">
+                                            <input v-model="email" placeholder="Correo electronico del  usuario ...." type="text" name="email" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorEmail}" value="email">
                                             <span class="text-danger" ole="alert">{{ errorEmail }}</span>
                                         </div>
                                         <div class="form-group">
@@ -106,11 +109,18 @@
                                             <input v-model="password_confirmation" placeholder="Ingrese nuevamente la contraseña ...." type="password" name="password_confirmation" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorPassword_conf}">
                                             <span class="text-danger" ole="alert">{{ errorPassword_conf }}</span>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="role">Rol</label>
+                                            <select v-model="role" class="form-control bg-light shadow-sm" v-on:change="getStaffEmail">
+                                                <option value="a">Sin rol</option>
+                                                <option v-for="role in roles" :key="role.id" :value="role.name" v-text="role.name">
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                         <button v-if="typeAction==1" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="createUser">Guardar</button>
-                                        <button v-if="typeAction==2" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="updateUser(id)">Actulizar</button>
                                     </div>
                                 </div>
                             </div>
@@ -119,7 +129,7 @@
                 </div>
                 <div>
                     <form method="POST">
-                        <div class="modal fade" id="modalUserEdit">
+                        <div class="modal fade" id="modalUserUpdate">
                             <div class="modal-dialog modal-dialog-centered modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header bg-primary text-white">
@@ -130,23 +140,21 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label for="email">Email</label>
+                                            <label for="email">Correo electrónico</label>
                                             <p>{{ email }}</p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="password">Nueva Contraseña</label>
-                                            <input v-model="password" placeholder="Contraseña del usuario ...." type="password" name="password" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorPassword}">
-                                            <span class="text-danger" ole="alert">{{ errorPassword }}</span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="password_confirmation">Confirmar contraseña</label>
-                                            <input v-model="password_confirmation" placeholder="Ingrese nuevamente la contraseña ...." type="password" name="password_confirmation" class="form-control bg-light shadow-sm" :class="{ 'is-invalid': hasErrorPassword_conf}">
-                                            <span class="text-danger" ole="alert">{{ errorPassword_conf }}</span>
+                                            <label for="role">Rol</label>
+                                            <select v-model="role" class="form-control bg-light shadow-sm" v-on:change="getStaffEmail">
+                                                <option value="a">Sin rol</option>
+                                                <option v-for="role in roles" :key="role.id" :value="role.name" v-text="role.name">
+                                                </option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                        <button v-if="typeAction==2" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="updateUser(id)">Actulizar</button>
+                                        <button v-if="typeAction==2" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="updateUser(id)">Actualizar</button>
                                     </div>
                                 </div>
                             </div>
@@ -173,6 +181,7 @@ export default {
         return {
             users: [],
             staffs: [],
+            roles: [],
             pagination: {
                 'total': 0,
                 'current_page': 0,
@@ -183,6 +192,7 @@ export default {
             },
             id: 0,
             staff_id: '',
+            role: 'a',
             email: '',
             password: '',
             password_confirmation: '',
@@ -276,12 +286,30 @@ export default {
             })
         },
 
-        //obtener provedor
-        getStaff: function(){
-            var url = 'users/create';
+        //obtener personal
+        getStaff: function(id){
+            var url = 'users/create?role=' +id;
             axios.get(url).then(response => {
                 this.staffs = response.data.staffs;
+                this.roles = response.data.roles;
+                if (typeof response.data.role[0] == 'undefined') {
+                    this.role = 'a';
+                }
+                else{
+                  this.role = response.data.role[0];
+                }
             });
+        },
+
+        //Ontener email del personal
+        getStaffEmail: function(){
+            for(var i = 0; i < this.staffs.length; i++){
+                if (this.staffs[i].id == this.staff_id) {
+                    this.email = this.staffs[i].email;
+                    this.password = this.staffs[i].dni;
+                    this.password_confirmation = this.staffs[i].dni;
+                }
+            }
         },
 
         //crear usuario
@@ -291,7 +319,8 @@ export default {
                 'staff_id': this.staff_id,
                 'email': this.email,
                 'password': this.password,
-                'password_confirmation': this.password_confirmation
+                'password_confirmation': this.password_confirmation,
+                'role': this.role
             }).then(response => {
                 this.getUsers(1, '', '');
                 this.clear();
@@ -320,29 +349,45 @@ export default {
             });
         },
 
-        //actualizar usuario
         updateUser: function(id){
             var url = 'users/' + id;
             axios.put(url, {
-                'id': this.id,
-                'password': this.password,
-                'password_confirmation': this.password_confirmation
+                'role': this.role
             }).then(response => {
                 this.getUsers(1, '', '');
                 this.clear();
-                $('#modalUserEdit').modal('hide');
+                $('#modalUserUpdate').modal('hide');
                 toastr.success('Usuario actualizado con exito', 'Usuario', {
                     "closeButton": true,
                     "positionClass": "toast-bottom-right"
                 });
-            }).catch(error => {
-                if (typeof error.response.data.errors.password != 'undefined') {
-                    this.errorPassword = error.response.data.errors.password[0];
-                    this.hasErrorPassword = true;
-                }
-                if (typeof error.response.data.errors.password_confirmation != 'undefined') {
-                    this.errorPassword_conf = error.response.data.errors.password_confirmation[0];
-                    this.hasErrorPassword_conf = true;
+            });
+        },
+
+        //actualizar usuario
+        resetUser: function(id){
+            var url = 'users/' + id + '/reset';
+            Swal.fire({
+                title: '¿Restablecer contraseña?',
+                text: "¡Se restablecera a la contraseña por defecto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, restablecer!'
+            }).then((result) => {
+                if (result.value) {
+                    //Metodo para restablecer
+                    axios.get(url).then(response => {
+                        this.getUsers(1, '', '');
+                        this.clear();
+                    });
+                    //Asta qui
+                    Swal.fire(
+                        'Restablecido!',
+                        'Contraseña restablecida correctamente.',
+                        'success'
+                        )
                 }
             });
         },
@@ -354,17 +399,16 @@ export default {
                 this.clear();
                 $('#modalUser').modal('show');
                 this.hasErrorFalse();
-                this.getStaff();
+                this.getStaff('0');
             }
             else if(modal == 'edit'){
                 this.hasErrorFalse();
                 this.typeAction = 2;
-                this.modalTitle = 'Cambiar Contraseña de Usuario';
+                this.modalTitle = 'Actualizar Usuario';
                 this.id = user.id;
                 this.email = user.email;
-                this.password = ''
-                this.password_confirmation = '';
-                $('#modalUserEdit').modal('show');
+                $('#modalUserUpdate').modal('show');
+                this.getStaff(user.id);
             }
         },
 
@@ -376,6 +420,7 @@ export default {
             this.email = '';
             this.password = '';
             this.password_confirmation = '';
+            this.role = 'a';
             this.hasErrorFalse();
         },
 

@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(InputSeeder::class);
         $this->call(BranchSeeder::class);
         $this->call(OutputSeeder::class);
+        $this->call(PermissionsSeeder::class);
     }
 }

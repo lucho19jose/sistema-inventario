@@ -90,7 +90,7 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                         <button v-if="typeAction==1" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="createCategory">Guardar</button>
-                                        <button v-if="typeAction==2" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="updateCategory(id)">Actulizar</button>
+                                        <button v-if="typeAction==2" type="button" class="btn btn-primary" value="Guardar" v-on:click.prevent="updateCategory(id)">Actualizar</button>
                                     </div>
                                 </div>
                             </div>
@@ -219,7 +219,7 @@ export default {
             });
         },
 
-        //Actulizar categoria
+        //Actualizar categoria
         updateCategory: function(id){
             var url = 'categories/' + id;
             axios.put(url, {
@@ -255,7 +255,7 @@ export default {
                 this.hasError = false;
                 this.errors = '';
                 this.typeAction = 2;
-                this.modalTitle = 'Actulizar Categoría';
+                this.modalTitle = 'Actualizar Categoría';
                 this.id = category.id;
                 this.name = category.name;
                 this.description = category.description;

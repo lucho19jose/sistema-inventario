@@ -38,6 +38,10 @@
         <user></user>
     </template>
 
+    <template v-if="menu==9">
+        <role></role>
+    </template>
+
     <template v-if="menu==10">
         <inputreport></inputreport>
     </template>
