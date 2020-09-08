@@ -15,6 +15,7 @@ use App\User;
 class OutputController extends Controller
 {
 
+    //Autentificacion
     public function __construct(){
         $this->middleware('auth');
     }
