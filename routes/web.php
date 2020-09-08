@@ -137,14 +137,14 @@ Route::middleware(['auth'])->group(function () {
 //Roles y Permisos
 //Route::resource('roles', 'Admin\RoleController')->except('show');
 Route::middleware(['auth'])->group(function () {
-	Route::get('roles', 'Admin\UserController@index')->name('roles.index')
+	Route::get('roles', 'Admin\RoleController@index')->name('roles.index')
 		->middleware('permission:role.index');
-	Route::post('roles', 'Admin\UserController@store')->name('roles.store')
+	Route::post('roles', 'Admin\RoleController@store')->name('roles.store')
 		->middleware('permission:role.create');
-	Route::put('roles/{role}', 'Admin\UserController@update')->name('roles.update')
+	Route::put('roles/{role}', 'Admin\RoleController@update')->name('roles.update')
 		->middleware('permission:role.update');
-	Route::delete('roles/{role}', 'Admin\UserController@destroy')->name('roles.destroy')
+	Route::delete('roles/{role}', 'Admin\RoleController@destroy')->name('roles.destroy')
 		->middleware('permission:role.destroy');
-	Route::get('roles/create', 'Admin\UserController@create')->name('roles.create');
-	Route::get('roles/{role}/edit', 'Admin\UserController@edit')->name('roles.edit');
+	Route::get('roles/create', 'Admin\RoleController@create')->name('roles.create');
+	Route::get('roles/{role}/edit', 'Admin\RoleController@edit')->name('roles.edit');
 });

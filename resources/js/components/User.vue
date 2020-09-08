@@ -7,7 +7,7 @@
                         <h4>
                             <i class="fa fa-align-justify"></i>
                             Usuarios
-                            <a v-on:click.prevent="openModal('create')" href="#" class="btn btn-primary float-right">
+                            <a v-if="$can('user.create')" v-on:click.prevent="openModal('create')" href="#" class="btn btn-primary float-right">
                                 <i class="fas fa-plus-circle"></i> Nuevo
                             </a>
                         </h4>
@@ -41,13 +41,13 @@
                                     <td>{{ user.email }}</td>
                                     <td>{{ date(user.created_at) }}</td>
                                     <td width="10px">
-                                        <a v-on:click.prevent="resetUser(user.id)" href="#" class="btn btn-primary btn-sm"><i class="fas fa-sync-alt"></i></a>
+                                        <a v-if="$can('user.reset')" v-on:click.prevent="resetUser(user.id)" href="#" class="btn btn-primary btn-sm"><i class="fas fa-sync-alt"></i></a>
                                     </td>
                                     <td width="10px">
-                                        <a v-on:click.prevent="openModal('edit', user)" href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                        <a v-if="$can('user.update')" v-on:click.prevent="openModal('edit', user)" href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                                     </td>
                                     <td width="10px">
-                                        <a v-on:click.prevent="deleteUser(user)" href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
+                                        <a v-if="$can('user.destroy')" v-on:click.prevent="deleteUser(user)" href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

@@ -10,6 +10,7 @@ use App\Product;
 use App\Http\Requests\OutputRequest;
 use TJGazel\Toastr\Facades\Toastr;
 use Carbon\Carbon;
+use App\User;
 
 class OutputController extends Controller
 {
@@ -42,6 +43,8 @@ class OutputController extends Controller
             ->paginate(8);
         }
 
+        $user_id_log = auth()->user()->id;
+
         return [
             'pagination' => [
                 'total' => $outputs->total(),
@@ -51,7 +54,8 @@ class OutputController extends Controller
                 'from' => $outputs->firstItem(),
                 'to' => $outputs->lastItem(),
             ],
-            'outputs' => $outputs
+            'outputs' => $outputs,
+            'user_id_log' => $user_id_log
         ];
     }
 

@@ -7,7 +7,7 @@
                         <h4>
                             <i class="fa fa-align-justify"></i>
                             Categorías
-                            <a v-on:click.prevent="openModal('create')" href="#" class="btn btn-primary float-right">
+                            <a v-if="$can('category.create')" v-on:click.prevent="openModal('create')" href="#" class="btn btn-primary float-right">
                                 <i class="fas fa-plus-circle"></i> Nuevo
                             </a>
                         </h4>
@@ -35,10 +35,10 @@
                                     <td>{{ category.name }}</td>
                                     <td>{{ category.description }}</td>
                                     <td width="10px">
-                                        <a v-on:click.prevent="openModal('edit', category)" href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                        <a v-if="$can('category.update')" v-on:click.prevent="openModal('edit', category)" href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                                     </td>
                                     <td width="10px">
-                                        <a v-on:click.prevent="deleteCategory(category)" href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
+                                        <a v-if="$can('category.destroy')" v-on:click.prevent="deleteCategory(category)" href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

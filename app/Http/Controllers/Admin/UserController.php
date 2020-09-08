@@ -100,7 +100,7 @@ class UserController extends Controller
         $user->staff_id = $request->staff_id;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        if ($request->role != '') {
+        if ($request->role != 'a') {
             $user->assignRole($request->role);
         }
         $user->save();

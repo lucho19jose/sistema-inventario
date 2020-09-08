@@ -42,10 +42,10 @@
                                     <td>{{ branch.address }}</td>
                                     <td>{{ branch.city }}</td>
                                     <td width="10px">
-                                        <a v-on:click.prevent="openModal('edit', branch)" href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                        <a v-if="$can('branch.update')" v-on:click.prevent="openModal('edit', branch)" href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                                     </td>
                                     <td width="10px">
-                                        <a v-on:click.prevent="deleteBranch(branch)" href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
+                                        <a v-if="$can('branch.destroy')" v-on:click.prevent="deleteBranch(branch)" href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

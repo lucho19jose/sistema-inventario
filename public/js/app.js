@@ -2996,6 +2996,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('es');
       provider_id: 0,
       provider: '',
       user_id: 0,
+      user_id_log: '',
       voucher_type: 'voucher_type',
       voucher_serie: '',
       voucher_number: '',
@@ -3079,6 +3080,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('es');
       axios.get(url).then(function (response) {
         _this.inputs = response.data.inputs.data;
         _this.pagination = response.data.pagination;
+        _this.user_id_log = response.data.user_id_log;
       });
     },
     showDetail: function showDetail() {
@@ -3237,7 +3239,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('es');
 
       var url = 'inputs';
       axios.post(url, {
-        'user_id': this.inputs[0]['user_id'],
+        'user_id': this.user_id_log,
         'provider_id': this.provider_id,
         'voucher_type': this.voucher_type,
         'voucher_serie': this.voucher_serie,
@@ -4085,6 +4087,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('es');
       branch_id: 0,
       branch: '',
       user_id: 0,
+      user_id_log: '',
       voucher_type: 'voucher_type',
       voucher_serie: '',
       voucher_number: '',
@@ -4165,6 +4168,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('es');
       axios.get(url).then(function (response) {
         _this.outputs = response.data.outputs.data;
         _this.pagination = response.data.pagination;
+        _this.user_id_log = response.data.user_id_log;
       });
     },
     showDetail: function showDetail() {
@@ -4310,7 +4314,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('es');
           product: data['name'],
           quantity: 1
         });
-        toastr.success('Producto agregadp con exito', 'Producto', {
+        toastr.success('Producto agregado con exito', 'Producto', {
           "closeButton": true,
           "positionClass": "toast-bottom-right"
         });
@@ -4325,7 +4329,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('es');
 
       var url = 'outputs';
       axios.post(url, {
-        'user_id': this.outputs[0]['user_id'],
+        'user_id': this.user_id_log,
         'staff_id': this.staff_id,
         'branch_id': this.branch_id,
         'voucher_type': this.voucher_type,
@@ -68296,37 +68300,41 @@ var render = function() {
                       _c("td", [_vm._v(_vm._s(branch.city))]),
                       _vm._v(" "),
                       _c("td", { attrs: { width: "10px" } }, [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-warning btn-sm",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.openModal("edit", branch)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-edit" })]
-                        )
+                        _vm.$can("branch.update")
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-warning btn-sm",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.openModal("edit", branch)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fas fa-edit" })]
+                            )
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _c("td", { attrs: { width: "10px" } }, [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-danger btn-sm",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.deleteBranch(branch)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-trash-alt" })]
-                        )
+                        _vm.$can("branch.destroy")
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-danger btn-sm",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.deleteBranch(branch)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fas fa-trash-alt" })]
+                            )
+                          : _vm._e()
                       ])
                     ])
                   }),
@@ -68692,23 +68700,25 @@ var render = function() {
               _vm._v(
                 "\n                        Categorías\n                        "
               ),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-primary float-right",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.openModal("create")
-                    }
-                  }
-                },
-                [
-                  _c("i", { staticClass: "fas fa-plus-circle" }),
-                  _vm._v(" Nuevo\n                        ")
-                ]
-              )
+              _vm.$can("category.create")
+                ? _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-primary float-right",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.openModal("create")
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-plus-circle" }),
+                      _vm._v(" Nuevo\n                        ")
+                    ]
+                  )
+                : _vm._e()
             ])
           ]),
           _vm._v(" "),
@@ -68789,37 +68799,41 @@ var render = function() {
                       _c("td", [_vm._v(_vm._s(category.description))]),
                       _vm._v(" "),
                       _c("td", { attrs: { width: "10px" } }, [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-warning btn-sm",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.openModal("edit", category)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-edit" })]
-                        )
+                        _vm.$can("category.update")
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-warning btn-sm",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.openModal("edit", category)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fas fa-edit" })]
+                            )
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _c("td", { attrs: { width: "10px" } }, [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-danger btn-sm",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.deleteCategory(category)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-trash-alt" })]
-                        )
+                        _vm.$can("category.destroy")
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-danger btn-sm",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.deleteCategory(category)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fas fa-trash-alt" })]
+                            )
+                          : _vm._e()
                       ])
                     ])
                   }),
@@ -69127,23 +69141,25 @@ var render = function() {
                 _vm._v(
                   "\n                        Ingreso de Productos\n                        "
                 ),
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-primary float-right",
-                    attrs: { href: "#" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.showDetail()
-                      }
-                    }
-                  },
-                  [
-                    _c("i", { staticClass: "fas fa-plus-circle" }),
-                    _vm._v(" Nuevo\n                        ")
-                  ]
-                )
+                _vm.$can("input.create")
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-primary float-right",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.showDetail()
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-plus-circle" }),
+                        _vm._v(" Nuevo\n                        ")
+                      ]
+                    )
+                  : _vm._e()
               ])
             ]),
             _vm._v(" "),
@@ -69307,20 +69323,22 @@ var render = function() {
                                   attrs: { width: "10px" }
                                 },
                                 [
-                                  _c(
-                                    "a",
-                                    {
-                                      staticClass: "btn btn-success btn-sm",
-                                      attrs: { href: "#" },
-                                      on: {
-                                        click: function($event) {
-                                          $event.preventDefault()
-                                          return _vm.showInput(input)
-                                        }
-                                      }
-                                    },
-                                    [_c("i", { staticClass: "fas fa-eye" })]
-                                  )
+                                  _vm.$can("input.show")
+                                    ? _c(
+                                        "a",
+                                        {
+                                          staticClass: "btn btn-success btn-sm",
+                                          attrs: { href: "#" },
+                                          on: {
+                                            click: function($event) {
+                                              $event.preventDefault()
+                                              return _vm.showInput(input)
+                                            }
+                                          }
+                                        },
+                                        [_c("i", { staticClass: "fas fa-eye" })]
+                                      )
+                                    : _vm._e()
                                 ]
                               )
                             ])
@@ -71151,23 +71169,25 @@ var render = function() {
                 _vm._v(
                   "\n                            Salida de Productos\n                            "
                 ),
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-primary float-right",
-                    attrs: { href: "#" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.showDetail()
-                      }
-                    }
-                  },
-                  [
-                    _c("i", { staticClass: "fas fa-plus-circle" }),
-                    _vm._v(" Nuevo\n                            ")
-                  ]
-                )
+                _vm.$can("output.create")
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-primary float-right",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.showDetail()
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-plus-circle" }),
+                        _vm._v(" Nuevo\n                            ")
+                      ]
+                    )
+                  : _vm._e()
               ])
             ]),
             _vm._v(" "),
@@ -71331,20 +71351,22 @@ var render = function() {
                                   attrs: { width: "10px" }
                                 },
                                 [
-                                  _c(
-                                    "a",
-                                    {
-                                      staticClass: "btn btn-success btn-sm",
-                                      attrs: { href: "#" },
-                                      on: {
-                                        click: function($event) {
-                                          $event.preventDefault()
-                                          return _vm.showOutput(output)
-                                        }
-                                      }
-                                    },
-                                    [_c("i", { staticClass: "fas fa-eye" })]
-                                  )
+                                  _vm.$can("output.show")
+                                    ? _c(
+                                        "a",
+                                        {
+                                          staticClass: "btn btn-success btn-sm",
+                                          attrs: { href: "#" },
+                                          on: {
+                                            click: function($event) {
+                                              $event.preventDefault()
+                                              return _vm.showOutput(output)
+                                            }
+                                          }
+                                        },
+                                        [_c("i", { staticClass: "fas fa-eye" })]
+                                      )
+                                    : _vm._e()
                                 ]
                               )
                             ])
@@ -72999,23 +73021,25 @@ var render = function() {
               _vm._v(
                 "\n                        Productos\n                        "
               ),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-primary float-right",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.openModal("create")
-                    }
-                  }
-                },
-                [
-                  _c("i", { staticClass: "fas fa-plus-circle" }),
-                  _vm._v(" Nuevo\n                        ")
-                ]
-              )
+              _vm.$can("product.create")
+                ? _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-primary float-right",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.openModal("create")
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-plus-circle" }),
+                      _vm._v(" Nuevo\n                        ")
+                    ]
+                  )
+                : _vm._e()
             ])
           ]),
           _vm._v(" "),
@@ -73102,37 +73126,41 @@ var render = function() {
                       _c("td", [_vm._v(_vm._s(product.stock))]),
                       _vm._v(" "),
                       _c("td", { attrs: { width: "10px" } }, [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-warning btn-sm",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.openModal("edit", product)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-edit" })]
-                        )
+                        _vm.$can("product.update")
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-warning btn-sm",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.openModal("edit", product)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fas fa-edit" })]
+                            )
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _c("td", { attrs: { width: "10px" } }, [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-danger btn-sm",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.deleteProduct(product)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-trash-alt" })]
-                        )
+                        _vm.$can("product.destroy")
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-danger btn-sm",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.deleteProduct(product)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fas fa-trash-alt" })]
+                            )
+                          : _vm._e()
                       ])
                     ])
                   }),
@@ -73588,23 +73616,25 @@ var render = function() {
               _vm._v(
                 "\n                        Proveedores\n                        "
               ),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-primary float-right",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.openModal("create")
-                    }
-                  }
-                },
-                [
-                  _c("i", { staticClass: "fas fa-plus-circle" }),
-                  _vm._v(" Nuevo\n                        ")
-                ]
-              )
+              _vm.$can("provider.create")
+                ? _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-primary float-right",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.openModal("create")
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-plus-circle" }),
+                      _vm._v(" Nuevo\n                        ")
+                    ]
+                  )
+                : _vm._e()
             ])
           ]),
           _vm._v(" "),
@@ -73691,37 +73721,41 @@ var render = function() {
                       _c("td", [_vm._v(_vm._s(provider.email))]),
                       _vm._v(" "),
                       _c("td", { attrs: { width: "10px" } }, [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-warning btn-sm",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.openModal("edit", provider)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-edit" })]
-                        )
+                        _vm.$can("provider.update")
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-warning btn-sm",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.openModal("edit", provider)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fas fa-edit" })]
+                            )
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _c("td", { attrs: { width: "10px" } }, [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-danger btn-sm",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.deleteProvider(provider)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-trash-alt" })]
-                        )
+                        _vm.$can("provider.destroy")
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-danger btn-sm",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.deleteProvider(provider)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fas fa-trash-alt" })]
+                            )
+                          : _vm._e()
                       ])
                     ])
                   }),
@@ -74162,23 +74196,25 @@ var render = function() {
                 _vm._v(
                   "\n                        Roles\n                        "
                 ),
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-primary float-right",
-                    attrs: { href: "#" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.openModal("create")
-                      }
-                    }
-                  },
-                  [
-                    _c("i", { staticClass: "fas fa-plus-circle" }),
-                    _vm._v(" Nuevo\n                        ")
-                  ]
-                )
+                _vm.$can("role.create")
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-primary float-right",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.openModal("create")
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-plus-circle" }),
+                        _vm._v(" Nuevo\n                        ")
+                      ]
+                    )
+                  : _vm._e()
               ])
             ]),
             _vm._v(" "),
@@ -74265,37 +74301,45 @@ var render = function() {
                               _c("td", [_vm._v(_vm._s(role.name))]),
                               _vm._v(" "),
                               _c("td", { attrs: { width: "10px" } }, [
-                                _c(
-                                  "a",
-                                  {
-                                    staticClass: "btn btn-warning btn-sm",
-                                    attrs: { href: "#" },
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                        return _vm.openModal("edit", role)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fas fa-edit" })]
-                                )
+                                _vm.$can("role.update")
+                                  ? _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-warning btn-sm",
+                                        attrs: { href: "#" },
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            return _vm.openModal("edit", role)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fas fa-edit" })]
+                                    )
+                                  : _vm._e()
                               ]),
                               _vm._v(" "),
                               _c("td", { attrs: { width: "10px" } }, [
-                                _c(
-                                  "a",
-                                  {
-                                    staticClass: "btn btn-danger btn-sm",
-                                    attrs: { href: "#" },
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                        return _vm.deleteRole(role)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fas fa-trash-alt" })]
-                                )
+                                _vm.$can("role.destroy")
+                                  ? _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-danger btn-sm",
+                                        attrs: { href: "#" },
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            return _vm.deleteRole(role)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fas fa-trash-alt"
+                                        })
+                                      ]
+                                    )
+                                  : _vm._e()
                               ])
                             ])
                           }),
@@ -74679,23 +74723,25 @@ var render = function() {
               _vm._v(
                 "\n                        Personal\n                        "
               ),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-primary float-right",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.openModal("create")
-                    }
-                  }
-                },
-                [
-                  _c("i", { staticClass: "fas fa-plus-circle" }),
-                  _vm._v(" Nuevo\n                        ")
-                ]
-              )
+              _vm.$can("staff.create")
+                ? _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-primary float-right",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.openModal("create")
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-plus-circle" }),
+                      _vm._v(" Nuevo\n                        ")
+                    ]
+                  )
+                : _vm._e()
             ])
           ]),
           _vm._v(" "),
@@ -74827,37 +74873,41 @@ var render = function() {
                       _c("td", [_vm._v(_vm._s(staff.email))]),
                       _vm._v(" "),
                       _c("td", { attrs: { width: "10px" } }, [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-warning btn-sm",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.openModal("edit", staff)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-edit" })]
-                        )
+                        _vm.$can("staff.update")
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-warning btn-sm",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.openModal("edit", staff)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fas fa-edit" })]
+                            )
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _c("td", { attrs: { width: "10px" } }, [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-danger btn-sm",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.deleteStaff(staff)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-trash-alt" })]
-                        )
+                        _vm.$can("staff.destroy")
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-danger btn-sm",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.deleteStaff(staff)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fas fa-trash-alt" })]
+                            )
+                          : _vm._e()
                       ])
                     ])
                   }),
@@ -75705,23 +75755,25 @@ var render = function() {
               _vm._v(
                 "\n                        Usuarios\n                        "
               ),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-primary float-right",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.openModal("create")
-                    }
-                  }
-                },
-                [
-                  _c("i", { staticClass: "fas fa-plus-circle" }),
-                  _vm._v(" Nuevo\n                        ")
-                ]
-              )
+              _vm.$can("user.create")
+                ? _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-primary float-right",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.openModal("create")
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-plus-circle" }),
+                      _vm._v(" Nuevo\n                        ")
+                    ]
+                  )
+                : _vm._e()
             ])
           ]),
           _vm._v(" "),
@@ -75845,54 +75897,60 @@ var render = function() {
                       _c("td", [_vm._v(_vm._s(_vm.date(user.created_at)))]),
                       _vm._v(" "),
                       _c("td", { attrs: { width: "10px" } }, [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-primary btn-sm",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.resetUser(user.id)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-sync-alt" })]
-                        )
+                        _vm.$can("user.reset")
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-primary btn-sm",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.resetUser(user.id)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fas fa-sync-alt" })]
+                            )
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _c("td", { attrs: { width: "10px" } }, [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-warning btn-sm",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.openModal("edit", user)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-edit" })]
-                        )
+                        _vm.$can("user.update")
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-warning btn-sm",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.openModal("edit", user)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fas fa-edit" })]
+                            )
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _c("td", { attrs: { width: "10px" } }, [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-danger btn-sm",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.deleteUser(user)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-trash-alt" })]
-                        )
+                        _vm.$can("user.destroy")
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-danger btn-sm",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.deleteUser(user)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fas fa-trash-alt" })]
+                            )
+                          : _vm._e()
                       ])
                     ])
                   }),

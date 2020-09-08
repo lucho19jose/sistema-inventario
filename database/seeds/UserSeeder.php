@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'staff_id' => '20',
-            'email' => 'almacenero@gmail.com',
+            'email' => 'responsable_almacen@gmail.com',
             'email_verified_at' => now(),
             'password' =>bcrypt('unajma1512'),
             'remember_token' => Str::random(10),

@@ -7,7 +7,7 @@
                         <h4>
                             <i class="fa fa-align-justify"></i>
                             Ingreso de Productos
-                            <a v-on:click.prevent="showDetail()" href="#" class="btn btn-primary float-right">
+                            <a v-if="$can('input.create')" v-on:click.prevent="showDetail()" href="#" class="btn btn-primary float-right">
                                 <i class="fas fa-plus-circle"></i> Nuevo
                             </a>
                         </h4>
@@ -50,7 +50,7 @@
                                         <td>{{ date(input.created_at) }}</td>
                                         <td>{{ input.total }}</td>
                                         <td class="text-center" width="10px">
-                                            <a v-on:click.prevent="showInput(input)" href="#" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a v-if="$can('input.show')" v-on:click.prevent="showInput(input)" href="#" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -415,6 +415,7 @@ export default {
             provider_id: 0,
             provider: '',
             user_id: 0,
+            user_id_log: '',
             voucher_type: 'voucher_type',
             voucher_serie: '',
             voucher_number: '',
@@ -495,6 +496,7 @@ export default {
             axios.get(url).then(response => {
                 this.inputs = response.data.inputs.data;
                 this.pagination = response.data.pagination;
+                this.user_id_log = response.data.user_id_log;
             });
         },
 
@@ -651,7 +653,7 @@ export default {
         createInput: function(){
             var url = 'inputs';
             axios.post(url, {
-                'user_id': this.inputs[0]['user_id'],
+                'user_id': this.user_id_log,
                 'provider_id': this.provider_id,
                 'voucher_type': this.voucher_type,
                 'voucher_serie': this.voucher_serie,

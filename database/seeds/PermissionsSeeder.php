@@ -189,7 +189,7 @@ class PermissionsSeeder extends Seeder
     	$admin->givePermissionTo(Permission::all());
 
     	//Almacenero
-    	$grocer = Role::create(['name' => 'Almacenero']);
+    	$grocer = Role::create(['name' => 'Responsable de almacén']);
     	$grocer->givePermissionTo([
     		'category.index',
             'category.create',
@@ -213,6 +213,6 @@ class PermissionsSeeder extends Seeder
     	$user->assignRole('Administrador');
     	//Almacenero
     	$user = User::find(2);
-    	$user->assignRole('Almacenero');
+    	$user->assignRole('Responsable de almacén');
     }
 }

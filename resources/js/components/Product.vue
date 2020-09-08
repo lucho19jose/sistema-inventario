@@ -7,7 +7,7 @@
                         <h4>
                             <i class="fa fa-align-justify"></i>
                             Productos
-                            <a v-on:click.prevent="openModal('create')" href="#" class="btn btn-primary float-right">
+                            <a v-if="$can('product.create')" v-on:click.prevent="openModal('create')" href="#" class="btn btn-primary float-right">
                                 <i class="fas fa-plus-circle"></i> Nuevo
                             </a>
                         </h4>
@@ -41,10 +41,10 @@
                                     <td>{{ product.description }}</td>
                                     <td>{{ product.stock }}</td>
                                     <td width="10px">
-                                        <a v-on:click.prevent="openModal('edit', product)" href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                        <a v-if="$can('product.update')" v-on:click.prevent="openModal('edit', product)" href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                                     </td>
                                     <td width="10px">
-                                        <a v-on:click.prevent="deleteProduct(product)" href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
+                                        <a v-if="$can('product.destroy')" v-on:click.prevent="deleteProduct(product)" href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

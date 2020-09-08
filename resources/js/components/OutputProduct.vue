@@ -7,7 +7,7 @@
                         <h4>
                             <i class="fa fa-align-justify"></i>
                             Salida de Productos
-                            <a v-on:click.prevent="showDetail()" href="#" class="btn btn-primary float-right">
+                            <a v-if="$can('output.create')" v-on:click.prevent="showDetail()" href="#" class="btn btn-primary float-right">
                                 <i class="fas fa-plus-circle"></i> Nuevo
                             </a>
                         </h4>
@@ -50,7 +50,7 @@
                                         <td>{{ output.observation }}</td>
                                         <td>{{ date(output.created_at) }}</td>
                                         <td class="text-center" width="10px">
-                                            <a v-on:click.prevent="showOutput(output)" href="#" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a v-if="$can('output.show')" v-on:click.prevent="showOutput(output)" href="#" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -408,6 +408,7 @@ export default {
             branch_id: 0,
             branch: '',
             user_id: 0,
+            user_id_log: '',
             voucher_type: 'voucher_type',
             voucher_serie: '',
             voucher_number: '',
@@ -485,6 +486,7 @@ export default {
             axios.get(url).then(response => {
                 this.outputs = response.data.outputs.data;
                 this.pagination = response.data.pagination;
+                this.user_id_log = response.data.user_id_log;
             });
         },
 
@@ -629,7 +631,7 @@ export default {
                     product: data['name'],
                     quantity: 1,
                 });
-                toastr.success('Producto agregadp con exito', 'Producto', {
+                toastr.success('Producto agregado con exito', 'Producto', {
                     "closeButton": true,
                     "positionClass": "toast-bottom-right"
                 });
@@ -644,7 +646,7 @@ export default {
         createOutput: function(){
             var url = 'outputs';
             axios.post(url, {
-                'user_id': this.outputs[0]['user_id'],
+                'user_id': this.user_id_log,
                 'staff_id': this.staff_id,
                 'branch_id': this.branch_id,
                 'voucher_type': this.voucher_type,

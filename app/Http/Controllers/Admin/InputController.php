@@ -39,6 +39,8 @@ class InputController extends Controller
             ->paginate(8);
         }
 
+        $user_id_log = auth()->user()->id;
+
         return [
             'pagination' => [
                 'total' => $inputs->total(),
@@ -48,7 +50,8 @@ class InputController extends Controller
                 'from' => $inputs->firstItem(),
                 'to' => $inputs->lastItem(),
             ],
-            'inputs' => $inputs
+            'inputs' => $inputs,
+            'user_id_log' => $user_id_log
         ];
     }
 
